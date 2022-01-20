@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:memory_practice/pages/home/my_row.dart';
 
 class HomeContent extends StatelessWidget {
   HomeContent({Key? key}) : super(key: key);
@@ -21,60 +22,14 @@ class HomeContent extends StatelessWidget {
         ),
         child: Stack(
           children: [
-            Positioned(
-              top: 36.0*screenSize.width/386.0,
-              left: 32.0*screenSize.height/686.0,
-              child: GestureDetector(
-                child: SizedBox(
-                  height: 40.0*screenSize.width/386.0,
-                  width: 40.0*screenSize.width/386.0,
-                  child: const CircleAvatar(
-                    backgroundImage: AssetImage('assets/images/twt_round.png'),
-                    backgroundColor: Colors.blueAccent,
-                  ),
-                ),
-                onTap: (){
-
-                },
-              ),
+            Align(
+              alignment: const Alignment(0,-0.9),
+              child: MyBarRow(),
             ),
-            Positioned(
-              top: 32.0*screenSize.width/386.0,
-              left: 78.0*screenSize.height/686.0,
-              child: TextButton(
-                child: const Text(
-                  "用户名",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                  ),
-                ),
-                onPressed: (){
-
-                },
-              ),
-            ),
-            Positioned(
-              top: 32.0*screenSize.width/386.0,
-              left: 255.0*screenSize.height/686.0,
-              child: TextButton(
-                child: const Text(
-                  "排行榜",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                  ),
-                ),
-                onPressed: (){
-
-                },
-              ),
-            ),
-            Positioned(
-              top: 275,
-              left: 145,
+            Align(
+              // top: 275,
+              // left: 145,
+              alignment: const Alignment(-0.14, -0.215),
               child: TextButton(
                 child: const Text(
                   "自我\n提升",
@@ -88,9 +43,10 @@ class HomeContent extends StatelessWidget {
                 },
               ),
             ),
-            Positioned(
-              top: 590,
-              left: 240,
+            Align(
+              // top: 590,
+              // left: 240,
+              alignment: const Alignment(0.48,0.735),
               child: TextButton(
                 child: const Text(
                   "走过\n的路",

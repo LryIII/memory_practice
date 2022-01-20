@@ -26,6 +26,7 @@ class _GameMainState extends State<GameMain> {
   late List<Widget> bottomWidgets;
   late List<Widget> nowThreeImages;
   late int finishTime;
+  late int finishTimeMillisecond;
   final Size screenSize= window.physicalSize/window.devicePixelRatio;
   final StopWatchTimer _stopWatchTimer = StopWatchTimer();
     // onChange: (value) {
@@ -188,7 +189,7 @@ class _GameMainState extends State<GameMain> {
                 )
             ),
           ),
-          const SizedBox(height: 30,),
+          const SizedBox(height: 50,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
@@ -205,7 +206,7 @@ class _GameMainState extends State<GameMain> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: nowThreeImages,
           ),
-          const SizedBox(height: 50,),
+          const SizedBox(height: 90,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -315,7 +316,11 @@ class _GameMainState extends State<GameMain> {
       barrierDismissible: false,
       context: context,
       builder: (context){
-        return const EndWinDialog();
+        return EndWinDialog(
+          second: finishTime%60,
+          minute: finishTime~/60,
+          millisecond: finishTimeMillisecond%1000,
+        );
       },
     );
   }
@@ -324,13 +329,19 @@ class _GameMainState extends State<GameMain> {
       barrierDismissible: false,//为false时点击背景dialog不会消失
       context: context,
       builder: (context){
-        return const EndWinDialog();
+        //return const EndFailDialog();
+        return EndWinDialog(
+          second: finishTime%60,
+          minute: finishTime~/60,
+          millisecond: finishTimeMillisecond%1000,
+        );
       },
     );
   }
   void gameOver(){
     finishTime=_stopWatchTimer.secondTime.value;
-    print(finishTime);
+    finishTimeMillisecond=_stopWatchTimer.rawTime.value;
+    print(finishTimeMillisecond);
     gameStatus=2;
     _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
     if(gameJudge()){
@@ -381,9 +392,11 @@ class _GameMainState extends State<GameMain> {
         decoration: const BoxDecoration(
           color: Color.fromARGB(0xff, 246, 246, 246)
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: getGameStatusWidget(),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: getGameStatusWidget(),
+          ),
         ),
       ),
     );

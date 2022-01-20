@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:memory_practice/pages/home/home_content.dart';
 import 'package:memory_practice/routes.dart';
 
@@ -14,6 +15,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       onGenerateRoute:onGenerateRoute,
       home: HomeContent(),
+      navigatorObservers: [FlutterSmartDialog.observer],
+      builder: FlutterSmartDialog.init(),
     );
   }
 }
