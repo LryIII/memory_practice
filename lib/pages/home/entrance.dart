@@ -38,71 +38,76 @@ class _EntrancePageState extends State<EntrancePage> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/entrance.jpg'),
-            fit: BoxFit.cover,
-          )
-        ),
-        child: Stack(
-          children: [
-            Positioned(
-              top: 580.0,
-              left: screenSize.width/2-195.0/2,//110.0,
-              child: TextButton(
-                child:const Text(
-                  "进入个人挑战",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 32.5,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-                onPressed: (){
-                  _timer.cancel();
-                  Navigator.pop(context);
-                  Navigator.pushNamed(context, '/game_main');
-                },
-              ),
-            ),
-            Positioned(
-              top: 50,
-              left: 300,
-              child: CircularPercentIndicator(
-                animation: true,
-                animationDuration: 1000,//动画总时长
-                radius: 50.0, //整个圆形的大小
-                lineWidth: 6.0,//指示线条大小
-                percent: 1,///当animation为false时为当前进度///当animation为true时为最终进度
-                center: TextButton(
-                  child: const Text(
-                    "跳过",
+    return WillPopScope(
+      onWillPop: ()async{
+        return false;
+      },
+      child: Scaffold(
+        body: Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/entrance.jpg'),
+              fit: BoxFit.cover,
+            )
+          ),
+          child: Stack(
+            children: [
+              Positioned(
+                top: 580.0,
+                left: screenSize.width/2-195.0/2,//110.0,
+                child: TextButton(
+                  child:const Text(
+                    "进入个人挑战",
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.deepOrange,
+                      fontSize: 32.5,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w900,
                     ),
                   ),
                   onPressed: (){
                     _timer.cancel();
-                    Navigator.popAndPushNamed(context, '/game_main');
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, '/game_main');
                   },
-                ),//中心widget 可以是文字 或其他widget 如何icon
-                circularStrokeCap: CircularStrokeCap.round,
-                linearGradient: const LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color.fromRGBO(39, 153, 93, 0.01),
-                    Color.fromRGBO(39, 153, 93, 1)
-                  ],
-                ),//渐变色
+                ),
               ),
-            )
-          ],
+              Positioned(
+                top: 50,
+                left: 300,
+                child: CircularPercentIndicator(
+                  animation: true,
+                  animationDuration: 1000,//动画总时长
+                  radius: 50.0, //整个圆形的大小
+                  lineWidth: 6.0,//指示线条大小
+                  percent: 1,///当animation为false时为当前进度///当animation为true时为最终进度
+                  center: TextButton(
+                    child: const Text(
+                      "跳过",
+                      style: TextStyle(
+                        color: Colors.deepOrange,
+                      ),
+                    ),
+                    onPressed: (){
+                      _timer.cancel();
+                      Navigator.popAndPushNamed(context, '/game_main');
+                    },
+                  ),//中心widget 可以是文字 或其他widget 如何icon
+                  circularStrokeCap: CircularStrokeCap.round,
+                  linearGradient: const LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color.fromRGBO(39, 153, 93, 0.01),
+                      Color.fromRGBO(39, 153, 93, 1)
+                    ],
+                  ),//渐变色
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
