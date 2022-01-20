@@ -54,9 +54,8 @@ class _EntrancePageState extends State<EntrancePage> {
           ),
           child: Stack(
             children: [
-              Positioned(
-                top: 580.0,
-                left: screenSize.width/2-195.0/2,//110.0,
+              Align(
+                alignment: const Alignment(0, 0.618),
                 child: TextButton(
                   child:const Text(
                     "进入个人挑战",

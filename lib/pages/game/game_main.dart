@@ -27,6 +27,7 @@ class _GameMainState extends State<GameMain> {
   late List<Widget> nowThreeImages;
   late int finishTime;
   late int finishTimeMillisecond;
+  late bool isWin;
   final Size screenSize= window.physicalSize/window.devicePixelRatio;
   final StopWatchTimer _stopWatchTimer = StopWatchTimer();
     // onChange: (value) {
@@ -45,6 +46,7 @@ class _GameMainState extends State<GameMain> {
     gameStatus=0;
     bottomWidgets=[];
     nowThreeImages=[];
+    isWin=true;
     _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
 
     for(int i=0;i<10;i++){
@@ -61,6 +63,7 @@ class _GameMainState extends State<GameMain> {
     ];
   }
   void newQuestion(){
+
     //_stopWatchTimer.onExecute.add(StopWatchExecute.stop);
     if(gameStatus==0){
       _stopWatchTimer.onExecute.add(StopWatchExecute.start);
@@ -73,8 +76,14 @@ class _GameMainState extends State<GameMain> {
         gameOver();
         return;
       }
+      if(nowQuestion>=2){
+        if(answersRight[nowQuestion-2]!=answersUser[nowQuestion-2]){
+          isWin=false;
+        }
+      }
       answersRight.add(Random().nextInt(10));
       getThreeImages();
+      print(isWin);
       print(answersRight);
       print(answersUser);
       setState(() {
@@ -329,19 +338,19 @@ class _GameMainState extends State<GameMain> {
       barrierDismissible: false,//为false时点击背景dialog不会消失
       context: context,
       builder: (context){
-        //return const EndFailDialog();
-        return EndWinDialog(
-          second: finishTime%60,
-          minute: finishTime~/60,
-          millisecond: finishTimeMillisecond%1000,
-        );
+        return const EndFailDialog();
+        // return EndWinDialog(
+        //   second: finishTime%60,
+        //   minute: finishTime~/60,
+        //   millisecond: finishTimeMillisecond%1000,
+        // );
       },
     );
   }
   void gameOver(){
     finishTime=_stopWatchTimer.secondTime.value;
     finishTimeMillisecond=_stopWatchTimer.rawTime.value;
-    print(finishTimeMillisecond);
+    //print(finishTimeMillisecond);
     gameStatus=2;
     _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
     if(gameJudge()){
