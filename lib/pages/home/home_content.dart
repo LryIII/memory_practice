@@ -27,8 +27,6 @@ class HomeContent extends StatelessWidget {
               child: MyBarRow(),
             ),
             Align(
-              // top: 275,
-              // left: 145,
               alignment: const Alignment(-0.14, -0.215),
               child: TextButton(
                 child: const Text(
@@ -44,8 +42,6 @@ class HomeContent extends StatelessWidget {
               ),
             ),
             Align(
-              // top: 590,
-              // left: 240,
               alignment: const Alignment(0.48,0.735),
               child: TextButton(
                 child: const Text(

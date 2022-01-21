@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
@@ -34,7 +33,7 @@ class _GameMainState extends State<GameMain> {
   final Size screenSize= window.physicalSize/window.devicePixelRatio;
   final StopWatchTimer _stopWatchTimer = StopWatchTimer();
 
-  late Timer _timer;
+  //late Timer _timer;
     // onChange: (value) {
     //   final displayTime = StopWatchTimer.getDisplayTime(value);
     //   print('displayTime $displayTime');
@@ -89,9 +88,9 @@ class _GameMainState extends State<GameMain> {
       }
       answersRight.add(Random().nextInt(10));
       getThreeImages();
-      print(isWin);
-      print(answersRight);
-      print(answersUser);
+      //print(isWin);
+      //print(answersRight);
+      //print(answersUser);
       setState(() {
       });
     }
@@ -444,7 +443,6 @@ class _GameMainState extends State<GameMain> {
   @override
   void dispose() {
     _stopWatchTimer.dispose();
-    _timer.cancel();
     super.dispose();
   }
   @override
