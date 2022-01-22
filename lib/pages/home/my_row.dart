@@ -24,7 +24,6 @@ class MyBarRow extends StatelessWidget {
              ),
            ),
           onTap: (){
-
           },
         ),
         SizedBox(

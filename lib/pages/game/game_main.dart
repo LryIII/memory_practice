@@ -1,8 +1,9 @@
-
+import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:memory_practice/pages/game/game_small_image.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 import '../../components/dialog.dart';
@@ -24,12 +25,15 @@ class _GameMainState extends State<GameMain> {
   late List<Widget> smallImages;
   late int gameStatus;
   late List<Widget> bottomWidgets;
-  late List<Widget> nowThreeImages;
+  late List<int> nowThreeImages;
+  late List stateList;
   late int finishTime;
   late int finishTimeMillisecond;
   late bool isWin;
   final Size screenSize= window.physicalSize/window.devicePixelRatio;
   final StopWatchTimer _stopWatchTimer = StopWatchTimer();
+
+  //late Timer _timer;
     // onChange: (value) {
     //   final displayTime = StopWatchTimer.getDisplayTime(value);
     //   print('displayTime $displayTime');
@@ -48,18 +52,19 @@ class _GameMainState extends State<GameMain> {
     nowThreeImages=[];
     isWin=true;
     _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
-
+    stateList=[0,0,0];
     for(int i=0;i<10;i++){
       questions.add('assets/images/resource/question_'+i.toString()+'.jpg');
     }
     answersRight.add(Random().nextInt(10));
     getAllSmallImage();
     nowThreeImages=[
-      smallImages[0],
-      const SizedBox(width: 10,),
-      smallImages[0],
-      const SizedBox(width: 10,),
-      smallImages[0],
+      // smallImages[0],
+      // const SizedBox(width: 10,),
+      // smallImages[0],
+      // const SizedBox(width: 10,),
+      // smallImages[0],
+      0,0,0
     ];
   }
   void newQuestion(){
@@ -70,7 +75,7 @@ class _GameMainState extends State<GameMain> {
     }
     if(gameStatus!=2){
       // Start
-
+      stateList=[0,0,0];
       nowQuestion++;
       if(nowQuestion==21){
         gameOver();
@@ -83,9 +88,9 @@ class _GameMainState extends State<GameMain> {
       }
       answersRight.add(Random().nextInt(10));
       getThreeImages();
-      print(isWin);
-      print(answersRight);
-      print(answersUser);
+      //print(isWin);
+      //print(answersRight);
+      //print(answersUser);
       setState(() {
       });
     }
@@ -96,13 +101,13 @@ class _GameMainState extends State<GameMain> {
     while(n<3){
       int temp=Random().nextInt(10);
       if(_list[temp]){
-        nowThreeImages[2*n]=smallImages[temp];
+        nowThreeImages[n]=temp;
         _list[temp]=false;
         n++;
       }
     }
     if(_list[answersRight[nowQuestion-1]]){
-      nowThreeImages[Random().nextInt(3)*2]=smallImages[answersRight[nowQuestion-1]];
+      nowThreeImages[Random().nextInt(3)]=answersRight[nowQuestion-1];
     }
   }
   List<Widget> getGameStatusWidget(){
@@ -213,9 +218,9 @@ class _GameMainState extends State<GameMain> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: nowThreeImages,
+            children: showSmallImages(nowThreeImages),
           ),
-          const SizedBox(height: 90,),
+          const SizedBox(height:30,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -311,7 +316,77 @@ class _GameMainState extends State<GameMain> {
       smallImages.add(getSmallImage(i));
     }
   }
-
+  List<Widget> showSmallImages(List _list){
+    //0未选中,1对,2错
+    return [
+      SmallImage(
+        onTap: ()async {
+          answersUser.add(_list[0]);
+          if(nowQuestion>=1){
+            if(answersRight[nowQuestion-1]==answersUser[nowQuestion-1]){
+              stateList[0]=1;
+            }else{
+              stateList[0]=2;
+            }
+          }
+          setState(() {});
+          Future.delayed(
+            const Duration(milliseconds: 250), (){
+              newQuestion();
+            },
+          );
+        },
+        imageUrl: questions[_list[0]],
+        state:stateList[0],//1,
+      ),
+      const SizedBox(width: 10,),
+      SmallImage(
+        onTap: (){
+          answersUser.add(_list[1]);
+          if(nowQuestion>=1){
+            if(answersRight[nowQuestion-1]==answersUser[nowQuestion-1]){
+              //isWin=false;
+              stateList[1]=1;
+            }else{
+              stateList[1]=2;
+            }
+            setState(() {});
+            Future.delayed(
+              const Duration(milliseconds: 250), (){
+                newQuestion();
+              },
+            );
+          }
+        },
+        imageUrl: questions[_list[1]],
+        state: stateList[1],
+      ),
+      // smallImages[0],
+      const SizedBox(width: 10,),
+      SmallImage(
+        onTap: (){
+          answersUser.add(_list[2]);
+          if(nowQuestion>=1){
+            if(answersRight[nowQuestion-1]==answersUser[nowQuestion-1]){
+              //isWin=false;
+              stateList[2]=1;
+            }else {
+              stateList[2] = 2;
+            }
+            setState(() {});
+            Future.delayed(
+              const Duration(milliseconds: 250), (){
+                newQuestion();
+              },
+            );
+          }
+        },
+        imageUrl: questions[_list[2]],
+        state: stateList[2],
+      ),
+      // smallImages[0],
+    ];
+  }
   bool gameJudge(){
     for(int i=0;i<19;i++){
       if(answersUser[i]!=answersRight[i]){
@@ -411,3 +486,4 @@ class _GameMainState extends State<GameMain> {
     );
   }
 }
+
