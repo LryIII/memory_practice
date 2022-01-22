@@ -48,29 +48,21 @@ class _EntrancePageState extends State<EntrancePage> {
           height: double.infinity,
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/images/entrance.jpg'),
+              image: AssetImage('assets/images/entrance_background.png'),
               fit: BoxFit.cover,
             )
           ),
           child: Stack(
             children: [
-              Align(
-                alignment: const Alignment(0, 0.618),
-                child: TextButton(
-                  child:const Text(
-                    "进入个人挑战",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 32.5,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w900,
-                    ),
+              const Align(
+                alignment: Alignment(0, 0.66),
+                child: SizedBox(
+                  height: 88*0.6,
+                  width: 367*0.6,
+                  child: Image(
+                    image: AssetImage('assets/images/transparent_0.png'),
+                    fit: BoxFit.fill,
                   ),
-                  onPressed: (){
-                    _timer.cancel();
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, '/game_main');
-                  },
                 ),
               ),
               Positioned(

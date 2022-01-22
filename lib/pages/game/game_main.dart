@@ -38,8 +38,6 @@ class _GameMainState extends State<GameMain> {
     //   final displayTime = StopWatchTimer.getDisplayTime(value);
     //   print('displayTime $displayTime');
     // },
-    //onChangeRawSecond: (value) => print('onChangeRawSecond $value'),
-    //onChangeRawMinute: (value) => print('onChangeRawMinute $value'),
   void gameStart(){
     nowIndex=0;
     nowQuestion=0;
@@ -58,18 +56,10 @@ class _GameMainState extends State<GameMain> {
     }
     answersRight.add(Random().nextInt(10));
     getAllSmallImage();
-    nowThreeImages=[
-      // smallImages[0],
-      // const SizedBox(width: 10,),
-      // smallImages[0],
-      // const SizedBox(width: 10,),
-      // smallImages[0],
-      0,0,0
-    ];
+    nowThreeImages=[0,0,0];
   }
   void newQuestion(){
 
-    //_stopWatchTimer.onExecute.add(StopWatchExecute.stop);
     if(gameStatus==0){
       _stopWatchTimer.onExecute.add(StopWatchExecute.start);
     }

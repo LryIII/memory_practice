@@ -55,7 +55,7 @@ class HomeContent extends StatelessWidget {
               alignment: const Alignment(0,0.15),
               imageUrl: 'assets/images/rank.png',
               onTap:(){
-                Navigator.of(context).pushNamed('/entrance');
+
               },
             ),
             AlignImageButton(
