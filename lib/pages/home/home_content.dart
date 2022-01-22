@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:memory_practice/pages/home/my_row.dart';
+import 'package:memory_practice/pages/home/my_align_button.dart';
 
 class HomeContent extends StatelessWidget {
   HomeContent({Key? key}) : super(key: key);
@@ -16,48 +16,61 @@ class HomeContent extends StatelessWidget {
         width: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/home.jpg'),
+            image: AssetImage('assets/images/home_background.png'),
             fit: BoxFit.cover,
           )
         ),
         child: Stack(
           children: [
             Align(
-              alignment: const Alignment(0,-0.9),
-              child: MyBarRow(),
-            ),
-            Align(
-              // top: 275,
-              // left: 145,
-              alignment: const Alignment(-0.14, -0.215),
-              child: TextButton(
-                child: const Text(
-                  "自我\n提升",
-                  style: TextStyle(
-                    color: Color.fromARGB(0xff, 132, 0, 255),
-                    fontSize: 24.0,
-                  ),
+              alignment: const Alignment(0, -0.67),
+              child: GestureDetector(
+                child: const SizedBox(
+                  width: 177*0.93,
+                  height: 47*0.93,
+                    child: Image(
+                      image: AssetImage('assets/images/leave.png'),
+                      fit: BoxFit.fill,
+                    ),
                 ),
-                onPressed: (){
-                  Navigator.of(context).pushNamed('/entrance');
+                onTap: (){
                 },
               ),
             ),
-            Align(
-              // top: 590,
-              // left: 240,
-              alignment: const Alignment(0.48,0.735),
-              child: TextButton(
-                child: const Text(
-                  "走过\n的路",
-                  style: TextStyle(
-                    color: Color.fromARGB(0xff, 132, 0, 255),
-                    fontSize: 30.0,
-                  ),
-                ),
-                onPressed: (){
-                },
-              ),
+            AlignImageButton(
+              alignment: const Alignment(0,-0.35),
+              imageUrl: 'assets/images/game.png',
+              onTap: (){
+                Navigator.of(context).pushNamed('/entrance');
+              },
+            ),
+            AlignImageButton(
+              alignment: const Alignment(0,-0.10),
+              imageUrl: 'assets/images/user_grow.png',
+              onTap: (){
+
+              },
+            ),
+            AlignImageButton(
+              alignment: const Alignment(0,0.15),
+              imageUrl: 'assets/images/rank.png',
+              onTap:(){
+                Navigator.of(context).pushNamed('/entrance');
+              },
+            ),
+            AlignImageButton(
+              alignment: const Alignment(0,0.4),
+              onTap:(){
+
+              },
+              imageUrl: 'assets/images/about_us.png',
+            ),
+            AlignImageButton(
+              alignment: const Alignment(0,0.65),
+              onTap:(){
+
+              },
+              imageUrl: 'assets/images/card_pic.png',
             ),
           ],
         ),
