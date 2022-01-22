@@ -54,7 +54,7 @@ class _GameMainState extends State<GameMain> {
     _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
     stateList=[0,0,0];
     for(int i=0;i<10;i++){
-      questions.add('assets/images/resource/question_'+i.toString()+'.jpg');
+      questions.add('assets/images/resource/question_'+i.toString()+'.png');
     }
     answersRight.add(Random().nextInt(10));
     getAllSmallImage();
