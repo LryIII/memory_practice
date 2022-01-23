@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:memory_practice/pages/rank/rank_time_text.dart';
 
 class RankContent extends StatefulWidget {
   const RankContent({Key? key}) : super(key: key);
@@ -95,12 +96,22 @@ class _RankContentState extends State<RankContent> {
                               color: Colors.white
                             ),
                           ),
-                          const Text(
-                            "0秒xxx",
-                            style: TextStyle(
-                                color: Colors.white
+                          // const Text(
+                          //   "0秒xxx",
+                          //   style: TextStyle(
+                          //       color: Colors.white
+                          //   ),
+                          //),
+                          const SizedBox(width: 30,),
+                          RankTimeText(
+                            type: 0,
+                            child: const Text(
+                              "超凡入圣 8秒888",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
+                          )
                         ],
                       ),
                       // decoration: BoxDecoration(
