@@ -415,7 +415,6 @@ class _GameMainState extends State<GameMain> {
   void gameOver(){
     finishTime=_stopWatchTimer.secondTime.value;
     finishTimeMillisecond=_stopWatchTimer.rawTime.value;
-    //print(finishTimeMillisecond);
     gameStatus=2;
     _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
     if(gameJudge()){

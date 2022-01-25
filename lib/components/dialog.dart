@@ -3,9 +3,6 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 
 class EndFailDialog extends Dialog{
    const EndFailDialog({Key? key}) : super(key: key);
-
-
-  //SmartDialog _dialog=SmartDialog();
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -53,6 +50,46 @@ class EndFailDialog extends Dialog{
                       fontSize: 19.0,
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  //alignment: const Alignment(0,0),
+                  left: 31,
+                  top: 70,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height:148*1.1,
+                        width: 187*1.1,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('assets/images/fail_bee.png'),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        // child: Image(
+                        //   image: AssetImage,
+                        // ),
+                      ),
+                    ],
+                  ),
+                ),
+                Positioned(
+                  bottom: 43,
+                  left: 270/2-108/2,
+                  child: TextButton(
+                    child: const Text(
+                        "点击查看排行榜"
+                    ),
+                    onPressed: (){
+
+                    },
+                    style: ButtonStyle(
+                        overlayColor: MaterialStateProperty.all(
+                          Colors.transparent,//设置水波纹的颜色
+                        )
                     ),
                   ),
                 ),
@@ -155,10 +192,10 @@ class EndFailDialog extends Dialog{
 }
 
 class EndWinDialog extends Dialog{
-  late int second;
-  late int minute;
-  late int millisecond;
-  EndWinDialog({
+  final int second;
+  final int minute;
+  final int millisecond;
+  const EndWinDialog({
     Key? key,
     required this.minute,
     required this.second,
@@ -222,6 +259,29 @@ class EndWinDialog extends Dialog{
                   ),
                 ),
                 Positioned(
+                  //alignment: const Alignment(0,0),
+                  left: 52.1,
+                  top: 70,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height:225*0.8,
+                        width: 204*0.8,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('assets/images/success_lion.png'),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        // child: Image(
+                        //   image: AssetImage,
+                        // ),
+                      ),
+                    ],
+                  ),
+                ),
+                Positioned(
                   bottom: 36,
                   left: 270/2-108/2,
                   child: TextButton(
@@ -229,7 +289,8 @@ class EndWinDialog extends Dialog{
                       "点击查看排行榜"
                     ),
                     onPressed: (){
-
+                      Navigator.pop(context);
+                      Navigator.popAndPushNamed(context, '/rank');
                     },
                     style: ButtonStyle(
                       overlayColor: MaterialStateProperty.all(
