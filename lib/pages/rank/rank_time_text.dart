@@ -40,7 +40,7 @@ class RankTimeText extends StatelessWidget {
         color: const Color.fromARGB(155, 0, 0, 0),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           child,
         ],

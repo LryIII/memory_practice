@@ -104,7 +104,7 @@ class _RankContentState extends State<RankContent> {
                           //),
                           const SizedBox(width: 30,),
                           RankTimeText(
-                            type: 0,
+                            type: 1,
                             child: const Text(
                               "超凡入圣 8秒888",
                               style: TextStyle(
