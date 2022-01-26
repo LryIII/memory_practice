@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:memory_practice/pages/rank/rank_network.dart';
 import 'package:memory_practice/pages/rank/rank_time_text.dart';
 
 class RankContent extends StatefulWidget {
