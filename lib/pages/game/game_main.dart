@@ -30,50 +30,50 @@ class _GameMainState extends State<GameMain> {
   late int finishTime;
   late int finishTimeMillisecond;
   late bool isWin;
-  final Size screenSize= window.physicalSize/window.devicePixelRatio;
+  final Size screenSize = window.physicalSize / window.devicePixelRatio;
   final StopWatchTimer _stopWatchTimer = StopWatchTimer();
 
   //late Timer _timer;
-    // onChange: (value) {
-    //   final displayTime = StopWatchTimer.getDisplayTime(value);
-    //   print('displayTime $displayTime');
-    // },
-  void gameStart(){
-    nowIndex=0;
-    nowQuestion=0;
-    questions=[];
-    answersUser=[];
-    answersRight=[];
-    smallImages=[];
-    gameStatus=0;
-    bottomWidgets=[];
-    nowThreeImages=[];
-    isWin=true;
+  // onChange: (value) {
+  //   final displayTime = StopWatchTimer.getDisplayTime(value);
+  //   print('displayTime $displayTime');
+  // },
+  void gameStart() {
+    nowIndex = 0;
+    nowQuestion = 0;
+    questions = [];
+    answersUser = [];
+    answersRight = [];
+    smallImages = [];
+    gameStatus = 0;
+    bottomWidgets = [];
+    nowThreeImages = [];
+    isWin = true;
     _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
-    stateList=[0,0,0];
-    for(int i=0;i<10;i++){
-      questions.add('assets/images/resource/question_'+i.toString()+'.png');
+    stateList = [0, 0, 0];
+    for (int i = 0; i < 10; i++) {
+      questions.add('assets/images/resource/question_' + i.toString() + '.png');
     }
     answersRight.add(Random().nextInt(10));
     getAllSmallImage();
-    nowThreeImages=[0,0,0];
+    nowThreeImages = [0, 0, 0];
   }
-  void newQuestion(){
 
-    if(gameStatus==0){
+  void newQuestion() {
+    if (gameStatus == 0) {
       _stopWatchTimer.onExecute.add(StopWatchExecute.start);
     }
-    if(gameStatus!=2){
+    if (gameStatus != 2) {
       // Start
-      stateList=[0,0,0];
+      stateList = [0, 0, 0];
       nowQuestion++;
-      if(nowQuestion==21){
+      if (nowQuestion == 21) {
         gameOver();
         return;
       }
-      if(nowQuestion>=2){
-        if(answersRight[nowQuestion-2]!=answersUser[nowQuestion-2]){
-          isWin=false;
+      if (nowQuestion >= 2) {
+        if (answersRight[nowQuestion - 2] != answersUser[nowQuestion - 2]) {
+          isWin = false;
         }
       }
       answersRight.add(Random().nextInt(10));
@@ -81,27 +81,28 @@ class _GameMainState extends State<GameMain> {
       //print(isWin);
       //print(answersRight);
       //print(answersUser);
-      setState(() {
-      });
+      setState(() {});
     }
   }
-  void getThreeImages(){
-    List _list=List<bool>.filled(10, true);
-    int n=0;
-    while(n<3){
-      int temp=Random().nextInt(10);
-      if(_list[temp]){
-        nowThreeImages[n]=temp;
-        _list[temp]=false;
+
+  void getThreeImages() {
+    List _list = List<bool>.filled(10, true);
+    int n = 0;
+    while (n < 3) {
+      int temp = Random().nextInt(10);
+      if (_list[temp]) {
+        nowThreeImages[n] = temp;
+        _list[temp] = false;
         n++;
       }
     }
-    if(_list[answersRight[nowQuestion-1]]){
-      nowThreeImages[Random().nextInt(3)]=answersRight[nowQuestion-1];
+    if (_list[answersRight[nowQuestion - 1]]) {
+      nowThreeImages[Random().nextInt(3)] = answersRight[nowQuestion - 1];
     }
   }
-  List<Widget> getGameStatusWidget(){
-    switch(gameStatus){
+
+  List<Widget> getGameStatusWidget() {
+    switch (gameStatus) {
       case 0 :
         return [
           const SizedBox(
@@ -122,7 +123,7 @@ class _GameMainState extends State<GameMain> {
           ),
           const SizedBox(height: 30,),
           Container(
-            height: 300.0*618.0/772.0,
+            height: 300.0 * 618.0 / 772.0,
             width: 300,
             decoration: BoxDecoration(
                 image: DecorationImage(
@@ -130,16 +131,16 @@ class _GameMainState extends State<GameMain> {
                 )
             ),
           ),
-          SizedBox(height: screenSize.height-550.0,),
+          SizedBox(height: screenSize.height - 550.0,),
           Container(
             height: 45,
             width: double.infinity,
             margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
             child: ElevatedButton(
-              onPressed: (){
+              onPressed: () {
                 newQuestion();
                 setState(() {
-                  gameStatus=1;
+                  gameStatus = 1;
                 });
               },
               child: const Text(
@@ -185,7 +186,7 @@ class _GameMainState extends State<GameMain> {
           ),
           const SizedBox(height: 30,),
           Container(
-            height: 300.0*618.0/772.0,
+            height: 300.0 * 618.0 / 772.0,
             width: 300,
             decoration: BoxDecoration(
                 image: DecorationImage(
@@ -210,11 +211,11 @@ class _GameMainState extends State<GameMain> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: showSmallImages(nowThreeImages),
           ),
-          const SizedBox(height:30,),
+          const SizedBox(height: 30,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.access_time,color: Colors.blueAccent,),
+              const Icon(Icons.access_time, color: Colors.blueAccent,),
               // Text(
               //   "time",
               //   style: TextStyle(
@@ -226,14 +227,14 @@ class _GameMainState extends State<GameMain> {
                 initialData: 0,
                 builder: (context, snap) {
                   final value = snap.data;
-                  if(value!=null){
-                    String minute=(value~/60)<10 ?
-                    '0'+(value~/60).toString() : (value~/60).toString();
+                  if (value != null) {
+                    String minute = (value ~/ 60) < 10 ?
+                    '0' + (value ~/ 60).toString() : (value ~/ 60).toString();
                     //String minute=(value~/60)<10 ? '0' : ''+(value~/60).toString();
-                    String second=(value%60)<10 ?
-                    '0'+(value%60).toString() : (value%60).toString();
+                    String second = (value % 60) < 10 ?
+                    '0' + (value % 60).toString() : (value % 60).toString();
                     return Text(
-                      minute+":"+second,
+                      minute + ":" + second,
                       style: const TextStyle(
                         color: Colors.blueAccent,
                       ),
@@ -252,7 +253,7 @@ class _GameMainState extends State<GameMain> {
               SizedBox(
                 height: 40,
                 child: ElevatedButton.icon(
-                  onPressed: (){
+                  onPressed: () {
                     setState(() {
                       gameStart();
                     });
@@ -283,68 +284,70 @@ class _GameMainState extends State<GameMain> {
     }
   }
 
-  Widget getSmallImage(int index){
+  Widget getSmallImage(int index) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         answersUser.add(index);
         newQuestion();
       },
       child: Container(
-        height: 110.0*618.0/772.0,
+        height: 110.0 * 618.0 / 772.0,
         width: 110,
         decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(questions[index]),
-            fit: BoxFit.cover,
-          )
+            image: DecorationImage(
+              image: AssetImage(questions[index]),
+              fit: BoxFit.cover,
+            )
         ),
       ),
     );
   }
-  void getAllSmallImage(){
-    for(int i=0;i<10;i++){
+
+  void getAllSmallImage() {
+    for (int i = 0; i < 10; i++) {
       smallImages.add(getSmallImage(i));
     }
   }
-  List<Widget> showSmallImages(List _list){
+
+  List<Widget> showSmallImages(List _list) {
     //0未选中,1对,2错
     return [
       SmallImage(
-        onTap: ()async {
+        onTap: () async {
           answersUser.add(_list[0]);
-          if(nowQuestion>=1){
-            if(answersRight[nowQuestion-1]==answersUser[nowQuestion-1]){
-              stateList[0]=1;
-            }else{
-              stateList[0]=2;
+          if (nowQuestion >= 1) {
+            if (answersRight[nowQuestion - 1] == answersUser[nowQuestion - 1]) {
+              stateList[0] = 1;
+            } else {
+              stateList[0] = 2;
             }
           }
           setState(() {});
           Future.delayed(
-            const Duration(milliseconds: 250), (){
-              newQuestion();
-            },
+            const Duration(milliseconds: 250), () {
+            newQuestion();
+          },
           );
         },
         imageUrl: questions[_list[0]],
-        state:stateList[0],//1,
+        state: stateList[0], //1,
       ),
       const SizedBox(width: 10,),
       SmallImage(
-        onTap: (){
+        onTap: () {
           answersUser.add(_list[1]);
-          if(nowQuestion>=1){
-            if(answersRight[nowQuestion-1]==answersUser[nowQuestion-1]){
+          if (nowQuestion >= 1) {
+            if (answersRight[nowQuestion - 1] == answersUser[nowQuestion - 1]) {
               //isWin=false;
-              stateList[1]=1;
-            }else{
-              stateList[1]=2;
+              stateList[1] = 1;
+            } else {
+              stateList[1] = 2;
             }
             setState(() {});
             Future.delayed(
-              const Duration(milliseconds: 250), (){
-                newQuestion();
-              },
+              const Duration(milliseconds: 250), () {
+              newQuestion();
+            },
             );
           }
         },
@@ -354,20 +357,20 @@ class _GameMainState extends State<GameMain> {
       // smallImages[0],
       const SizedBox(width: 10,),
       SmallImage(
-        onTap: (){
+        onTap: () {
           answersUser.add(_list[2]);
-          if(nowQuestion>=1){
-            if(answersRight[nowQuestion-1]==answersUser[nowQuestion-1]){
+          if (nowQuestion >= 1) {
+            if (answersRight[nowQuestion - 1] == answersUser[nowQuestion - 1]) {
               //isWin=false;
-              stateList[2]=1;
-            }else {
+              stateList[2] = 1;
+            } else {
               stateList[2] = 2;
             }
             setState(() {});
             Future.delayed(
-              const Duration(milliseconds: 250), (){
-                newQuestion();
-              },
+              const Duration(milliseconds: 250), () {
+              newQuestion();
+            },
             );
           }
         },
@@ -377,32 +380,35 @@ class _GameMainState extends State<GameMain> {
       // smallImages[0],
     ];
   }
-  bool gameJudge(){
-    for(int i=0;i<19;i++){
-      if(answersUser[i]!=answersRight[i]){
+
+  bool gameJudge() {
+    for (int i = 0; i < 19; i++) {
+      if (answersUser[i] != answersRight[i]) {
         return false;
       }
     }
     return true;
   }
-  void gameWin(){
+
+  void gameWin() {
     showDialog(
       barrierDismissible: false,
       context: context,
-      builder: (context){
+      builder: (context) {
         return EndWinDialog(
-          second: finishTime%60,
-          minute: finishTime~/60,
-          millisecond: finishTimeMillisecond%1000,
+          second: finishTime % 60,
+          minute: finishTime ~/ 60,
+          millisecond: finishTimeMillisecond % 1000,
         );
       },
     );
   }
-  void gameFail(){
+
+  void gameFail() {
     showDialog(
-      barrierDismissible: false,//为false时点击背景dialog不会消失
+      barrierDismissible: false, //为false时点击背景dialog不会消失
       context: context,
-      builder: (context){
+      builder: (context) {
         return const EndFailDialog();
         // return EndWinDialog(
         //   second: finishTime%60,
@@ -412,14 +418,16 @@ class _GameMainState extends State<GameMain> {
       },
     );
   }
-  void gameOver(){
-    finishTime=_stopWatchTimer.secondTime.value;
-    finishTimeMillisecond=_stopWatchTimer.rawTime.value;
-    gameStatus=2;
+
+  void gameOver() {
+    finishTime = _stopWatchTimer.secondTime.value;
+    finishTimeMillisecond = _stopWatchTimer.rawTime.value;
+    //print(finishTimeMillisecond);
+    gameStatus = 2;
     _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
-    if(gameJudge()){
+    if (gameJudge()) {
       gameWin();
-    }else{
+    } else {
       gameFail();
     }
   }
@@ -429,11 +437,13 @@ class _GameMainState extends State<GameMain> {
     gameStart();
     super.initState();
   }
+
   @override
   void dispose() {
     _stopWatchTimer.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -444,7 +454,7 @@ class _GameMainState extends State<GameMain> {
             color: Colors.black,
             size: 20.0,
           ),
-          onPressed: (){
+          onPressed: () {
             Navigator.pop(context);
           },
         ),
@@ -454,8 +464,8 @@ class _GameMainState extends State<GameMain> {
           "专注力测试",
           textAlign: TextAlign.left,
           style: TextStyle(
-            color: Colors.black,
-            fontSize: 18.0
+              color: Colors.black,
+              fontSize: 18.0
           ),
         ),
       ),
@@ -463,7 +473,7 @@ class _GameMainState extends State<GameMain> {
         height: double.infinity,
         width: double.infinity,
         decoration: const BoxDecoration(
-          color: Color.fromARGB(0xff, 246, 246, 246)
+            color: Color.fromARGB(0xff, 246, 246, 246)
         ),
         child: SingleChildScrollView(
           child: Column(
@@ -475,4 +485,3 @@ class _GameMainState extends State<GameMain> {
     );
   }
 }
-
