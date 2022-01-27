@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:memory_practice/pages/grow/grow_line_chart.dart';
 import 'package:memory_practice/pages/grow/grow_state_box.dart';
 
 class GrowContent extends StatefulWidget {
@@ -132,6 +132,7 @@ class _GrowContentState extends State<GrowContent> {
                   color: Colors.indigo,
                   borderRadius: BorderRadius.circular(10.0),
                 ),
+                child: GrowLineChart(),
               ),
             )
           ],
