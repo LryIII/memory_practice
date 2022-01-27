@@ -153,6 +153,5 @@ class _RankContentState extends State<RankContent> {
     }else{
       return '$second秒$millisecond';
     }
-
   }
 }

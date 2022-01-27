@@ -48,7 +48,7 @@ class HomeContent extends StatelessWidget {
               alignment: const Alignment(0,-0.10),
               imageUrl: 'assets/images/user_grow.png',
               onTap: (){
-
+                Navigator.of(context).pushNamed('/grow');
               },
             ),
             AlignImageButton(

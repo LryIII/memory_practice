@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:memory_practice/pages/game/game_main.dart';
+import 'package:memory_practice/pages/grow/grow_main.dart';
 import 'package:memory_practice/pages/home/entrance.dart';
 import 'package:memory_practice/pages/home/home_content.dart';
 import 'package:memory_practice/pages/rank/rank_main.dart';
@@ -8,6 +9,7 @@ final routes={
   '/entrance':(_)=>const EntrancePage(),
   '/game_main':(_)=>const GameMain(),
   '/rank':(_)=>const RankContent(),
+  '/grow':(_)=>const GrowContent(),
 };
 Route? onGenerateRoute(RouteSettings settings){
   final String? name=settings.name;
