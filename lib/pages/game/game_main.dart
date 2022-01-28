@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:memory_practice/pages/game/game_small_image.dart';
+import 'package:memory_practice/pages/game/slide_image_entrance.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 import '../../components/dialog.dart';
@@ -446,41 +447,52 @@ class _GameMainState extends State<GameMain> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
-            size: 20.0,
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      child: Stack(
+        children: [
+
+          Scaffold(
+            appBar: AppBar(
+              leading: IconButton(
+                icon: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.black,
+                  size: 20.0,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              elevation: 0.8,
+              backgroundColor: const Color.fromARGB(0xff, 246, 246, 246),
+              title: const Text(
+                "专注力测试",
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18.0
+                ),
+              ),
+            ),
+            body: Container(
+              height: double.infinity,
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                  color: Color.fromARGB(0xff, 246, 246, 246)
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: getGameStatusWidget(),
+                ),
+              ),
+            ),
           ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        elevation: 0.8,
-        backgroundColor: const Color.fromARGB(0xff, 246, 246, 246),
-        title: const Text(
-          "专注力测试",
-          textAlign: TextAlign.left,
-          style: TextStyle(
-              color: Colors.black,
-              fontSize: 18.0
-          ),
-        ),
-      ),
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        decoration: const BoxDecoration(
-            color: Color.fromARGB(0xff, 246, 246, 246)
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: getGameStatusWidget(),
-          ),
-        ),
+          AnimatedSlideImageTop(),
+          AnimatedSlideImageBottom(),
+        ],
       ),
     );
   }
