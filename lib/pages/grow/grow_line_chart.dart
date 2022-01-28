@@ -1,3 +1,4 @@
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -9,31 +10,62 @@ class GrowLineChart extends StatefulWidget {
 }
 
 class _GrowLineChartState extends State<GrowLineChart> {
+  List<FlSpot> pointsData=[];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    pointsData=[
+      const FlSpot(1, -1),
+      const FlSpot(2, -4),
+      const FlSpot(3, -1.8),
+      const FlSpot(4, -5),
+      const FlSpot(5, -2),
+      const FlSpot(6, -2.2),
+      const FlSpot(7, -1.8),
+    ];
+
+  }
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: LineChart(
-        LineChartData(
-          //? 是否可以点击
-          lineTouchData: LineTouchData(
-            enabled: false,
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: SizedBox(
+        height: 400,
+        width: 500,
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: 8.0,
+            right: 8.0,
+            bottom: 8.0,
           ),
-          //? 网格线配置
-          gridData: FlGridData(
-            show: false,
+          child: LineChart(
+            LineChartData(
+              //? 是否可以点击
+              lineTouchData: LineTouchData(
+                enabled: false,
+              ),
+              //? 网格线配置
+              gridData: FlGridData(
+                show: true,
+                drawHorizontalLine: true,
+                horizontalInterval: 0.50,
+                getDrawingHorizontalLine: getDrawingHorizontalLine,
+                drawVerticalLine: false,
+              ),
+              //axisTitleData: _buildFlAxisTitleData(),
+              //? 标题
+              titlesData: _buildTitles(),
+              //? 边框
+              borderData: _buildBorderData(),
+              // minX: 0,
+              // //maxX: 14,
+              // maxY: 0,
+              // minY: -6,
+              //? 线条数据
+              lineBarsData: linesBarData(),
+            ),
           ),
-          //axisTitleData: _buildFlAxisTitleData(),
-          //? 标题
-          titlesData: _buildTitles(),
-          //? 边框
-          borderData: _buildBorderData(),
-          minX: 0,
-          maxX: 14,
-          maxY: 6,
-          minY: 0,
-          //? 线条数据
-          lineBarsData: linesBarData(),
         ),
       ),
     );
@@ -44,9 +76,9 @@ class _GrowLineChartState extends State<GrowLineChart> {
     return FlBorderData(
         show: true,
         border: const Border(
-          bottom:  BorderSide(
+          top: BorderSide(
             color: Color(0xff4e4965),
-            width: 4,
+            width: 2,
           ),
           left: BorderSide(
             color: Color(0xff4e4965),
@@ -55,7 +87,7 @@ class _GrowLineChartState extends State<GrowLineChart> {
           right: BorderSide(
             color: Colors.transparent,
           ),
-          top: BorderSide(
+          bottom: BorderSide(
             color: Colors.transparent,
           ),
         )
@@ -64,20 +96,13 @@ class _GrowLineChartState extends State<GrowLineChart> {
 
   linesBarData() {
     return [LineChartBarData(
-      spots: [
-        const FlSpot(1, 1),
-        const FlSpot(3, 4),
-        const FlSpot(5, 1.8),
-        const FlSpot(7, 5),
-        const FlSpot(10, 2),
-        const FlSpot(12, 2.2),
-        const FlSpot(13, 1.8),
-      ],
+      spots: pointsData,
       //? 是否是曲线
       isCurved: false,
       // curveSmoothness: 0,
       colors: const [
         Color(0x444af699),
+        Color(0xffffffff),
       ],
       //? 线的宽度
       barWidth: 4,
@@ -89,9 +114,11 @@ class _GrowLineChartState extends State<GrowLineChart> {
       ),
       //? 是否显示线上区域
       aboveBarData: BarAreaData(
-        //show: showAboveBarData,
+        show: true,
         colors: [
           const Color(0x444af699),
+          Colors.blueAccent,
+          Colors.purple
         ],
       ),
     )];
@@ -99,13 +126,13 @@ class _GrowLineChartState extends State<GrowLineChart> {
   FlTitlesData _buildTitles() {
     return FlTitlesData(
       //? 下边标题
-      //bottomTitles: _buildBottomTitle(),
+      topTitles:_buildTopTitle(),
       //? 左侧标题
       leftTitles: _buildLeftTitle(),
       rightTitles: SideTitles(
         showTitles: false,
       ),
-      topTitles: SideTitles(
+      bottomTitles: SideTitles(
         showTitles: false,
       )
     );
@@ -113,7 +140,7 @@ class _GrowLineChartState extends State<GrowLineChart> {
 
   TextStyle? getTextStyles(BuildContext context,double value){
     return const TextStyle(
-      color: Color(0xff75729e),
+      color: Colors.orange,//Color(0xff75729e),
       fontWeight: FontWeight.bold,
       fontSize: 14,
     );
@@ -123,22 +150,34 @@ class _GrowLineChartState extends State<GrowLineChart> {
       showTitles: true,
       getTextStyles: getTextStyles,
       getTitles: (value) {
-        switch (value.toInt()) {
-          case 1:
-            return '1s';
-          case 2:
-            return '2s';
-          case 3:
-            return '3s';
-          case 4:
-            return '5s';
-          case 5:
-            return '6s';
-        }
-        return '';
+        value= value==0.0 ? 0 : -value;
+        return "$value""s";
       },
+      interval: 0.5,
       margin: 8,
       reservedSize: 30,
+    );
+  }
+
+  SideTitles _buildTopTitle() {
+    return SideTitles(
+      showTitles: true,
+      getTextStyles: getTextStyles,
+      getTitles: (value) {
+        int temp=value.toInt();
+        return "$temp";
+      },
+      interval: 1,
+      margin: 8,
+      reservedSize: 30,
+    );
+  }
+
+  FlLine getDrawingHorizontalLine(double value) {
+    return FlLine(
+      color: Colors.deepOrange,
+      strokeWidth: 3,
+      dashArray: [11,2,],
     );
   }
 }

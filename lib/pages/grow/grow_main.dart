@@ -129,7 +129,7 @@ class _GrowContentState extends State<GrowContent> {
                 width: 307.0,
                 height: 418.0,
                 decoration: BoxDecoration(
-                  color: Colors.indigo,
+                  color: const Color(0x933F51B5),//Colors.indigo[300],
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: GrowLineChart(),
