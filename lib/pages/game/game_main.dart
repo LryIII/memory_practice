@@ -490,8 +490,8 @@ class _GameMainState extends State<GameMain> {
               ),
             ),
           ),
-          AnimatedSlideImageTop(),
-          AnimatedSlideImageBottom(),
+          const AnimatedSlideImageTop(),
+          const AnimatedSlideImageBottom(),
         ],
       ),
     );
