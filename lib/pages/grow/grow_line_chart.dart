@@ -12,9 +12,12 @@ class GrowLineChart extends StatefulWidget {
 }
 
 class _GrowLineChartState extends State<GrowLineChart> {
+  final double oneItemWidth=60.0;
+
   late int pointCounts;
   List<FlSpot> iniPointsData=[],pointsData=[];
   late Timer _timer;
+  late double boxWidth;
   @override
   void initState() {
     iniPointsData=[
@@ -26,6 +29,7 @@ class _GrowLineChartState extends State<GrowLineChart> {
     const FlSpot(6, -2.2),
     const FlSpot(7, -1.8),
     ];
+    boxWidth=oneItemWidth;
     _timer=Timer.periodic(const Duration(milliseconds: 200),
       (timer) {
         if(_timer.tick<=iniPointsData.length){
@@ -33,8 +37,12 @@ class _GrowLineChartState extends State<GrowLineChart> {
           setState(() {
 
           });
+          boxWidth+=oneItemWidth;
         }
         else{
+          setState(() {
+
+          });
           _timer.cancel();
         }
       }
@@ -52,7 +60,7 @@ class _GrowLineChartState extends State<GrowLineChart> {
       scrollDirection: Axis.horizontal,
       child: SizedBox(
         height: 400,
-        width: 500,
+        width: boxWidth,//500,
         child: Padding(
           padding: const EdgeInsets.only(
             left: 8.0,
