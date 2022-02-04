@@ -1,4 +1,6 @@
 
+import 'dart:async';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -10,21 +12,39 @@ class GrowLineChart extends StatefulWidget {
 }
 
 class _GrowLineChartState extends State<GrowLineChart> {
-  List<FlSpot> pointsData=[];
+  late int pointCounts;
+  List<FlSpot> iniPointsData=[],pointsData=[];
+  late Timer _timer;
   @override
   void initState() {
-    // TODO: implement initState
-    super.initState();
-    pointsData=[
-      const FlSpot(1, -1),
-      const FlSpot(2, -4),
-      const FlSpot(3, -1.8),
-      const FlSpot(4, -5),
-      const FlSpot(5, -2),
-      const FlSpot(6, -2.2),
-      const FlSpot(7, -1.8),
+    iniPointsData=[
+    const FlSpot(1, -1),
+    const FlSpot(2, -4),
+    const FlSpot(3, -1.8),
+    const FlSpot(4, -5),
+    const FlSpot(5, -2),
+    const FlSpot(6, -2.2),
+    const FlSpot(7, -1.8),
     ];
+    _timer=Timer.periodic(const Duration(milliseconds: 200),
+      (timer) {
+        if(_timer.tick<=iniPointsData.length){
+          pointsData.add(iniPointsData[_timer.tick-1]);
+          setState(() {
 
+          });
+        }
+        else{
+          _timer.cancel();
+        }
+      }
+    );
+    super.initState();
+  }
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {
