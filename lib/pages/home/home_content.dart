@@ -41,7 +41,9 @@ class HomeContent extends StatelessWidget {
               alignment: const Alignment(0,-0.35),
               imageUrl: 'assets/images/game.png',
               onTap: (){
-                Navigator.of(context).pushNamed('/game_main');
+                Navigator.of(context).pushNamed('/game_main',arguments: {
+                  'isFirst':true,
+                });
               },
             ),
             AlignImageButton(

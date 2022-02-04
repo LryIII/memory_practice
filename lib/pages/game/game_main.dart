@@ -10,7 +10,8 @@ import 'package:stop_watch_timer/stop_watch_timer.dart';
 import '../../components/dialog.dart';
 
 class GameMain extends StatefulWidget {
-  const GameMain({Key? key}) : super(key: key);
+  final Map arguments;
+  const GameMain({Key? key,required this.arguments}) : super(key: key);
 
   @override
   _GameMainState createState() => _GameMainState();
@@ -34,11 +35,6 @@ class _GameMainState extends State<GameMain> {
   final Size screenSize = window.physicalSize / window.devicePixelRatio;
   final StopWatchTimer _stopWatchTimer = StopWatchTimer();
 
-  //late Timer _timer;
-  // onChange: (value) {
-  //   final displayTime = StopWatchTimer.getDisplayTime(value);
-  //   print('displayTime $displayTime');
-  // },
   void gameStart() {
     nowIndex = 0;
     nowQuestion = 0;
@@ -79,9 +75,6 @@ class _GameMainState extends State<GameMain> {
       }
       answersRight.add(Random().nextInt(10));
       getThreeImages();
-      //print(isWin);
-      //print(answersRight);
-      //print(answersUser);
       setState(() {});
     }
   }
@@ -217,12 +210,6 @@ class _GameMainState extends State<GameMain> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Icon(Icons.access_time, color: Colors.blueAccent,),
-              // Text(
-              //   "time",
-              //   style: TextStyle(
-              //     color: Colors.blueAccent,
-              //   ),
-              // ),
               StreamBuilder<int>(
                 stream: _stopWatchTimer.secondTime,
                 initialData: 0,
@@ -231,7 +218,6 @@ class _GameMainState extends State<GameMain> {
                   if (value != null) {
                     String minute = (value ~/ 60) < 10 ?
                     '0' + (value ~/ 60).toString() : (value ~/ 60).toString();
-                    //String minute=(value~/60)<10 ? '0' : ''+(value~/60).toString();
                     String second = (value % 60) < 10 ?
                     '0' + (value % 60).toString() : (value % 60).toString();
                     return Text(
@@ -243,7 +229,6 @@ class _GameMainState extends State<GameMain> {
                   }
                   return const Text("time");
                 },
-
               ),
             ],
           ),
@@ -447,7 +432,7 @@ class _GameMainState extends State<GameMain> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       height: double.infinity,
       child: Stack(
@@ -490,8 +475,8 @@ class _GameMainState extends State<GameMain> {
               ),
             ),
           ),
-          const AnimatedSlideImageTop(),
-          const AnimatedSlideImageBottom(),
+          widget.arguments['isFirst']?const AnimatedSlideImageTop():Container(),
+          widget.arguments['isFirst']?const AnimatedSlideImageBottom():Container(),
         ],
       ),
     );

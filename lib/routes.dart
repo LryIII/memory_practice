@@ -7,7 +7,7 @@ import 'package:memory_practice/pages/rank/rank_main.dart';
 final routes={
   '/':(_)=>HomeContent(),
   '/entrance':(_)=>const EntrancePage(),
-  '/game_main':(_)=>const GameMain(),
+  '/game_main':(_,{arguments})=>GameMain(arguments:arguments),
   '/rank':(_)=>const RankContent(),
   '/grow':(_)=>const GrowContent(),
 };

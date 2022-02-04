@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 
@@ -5,7 +6,6 @@ class EndFailDialog extends Dialog{
    const EndFailDialog({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Material(
       type: MaterialType.transparency,
       child: Center(
@@ -141,8 +141,6 @@ class EndFailDialog extends Dialog{
                                 backgroundColor: MaterialStateProperty.all(
                                     const Color.fromARGB(0xff, 246, 246, 246)
                                 ),
-                                // side: MaterialStateProperty.all(
-                                // )
                               ),
                             ),
                           ),
@@ -152,7 +150,9 @@ class EndFailDialog extends Dialog{
                             child: ElevatedButton(
                               onPressed: (){
                                 Navigator.pop(context);
-                                Navigator.pushReplacementNamed(context, '/game_main');
+                                Navigator.pushReplacementNamed(context, '/game_main',arguments: {
+                                  'isFirst':false
+                                });
                               },
                               child: const Text("再次挑战"),
                               style: ButtonStyle(
@@ -350,8 +350,6 @@ class EndWinDialog extends Dialog{
                                 overlayColor: MaterialStateProperty.all(
                                   Colors.tealAccent,
                                 )
-                                // side: MaterialStateProperty.all(
-                                // )
                               ),
                             ),
                           ),
@@ -361,8 +359,9 @@ class EndWinDialog extends Dialog{
                             child: ElevatedButton(
                               onPressed: (){
                                 Navigator.pop(context);
-                                Navigator.pushReplacementNamed(context, '/game_main');
-                                //Navigator.pushNamed(context, '/game_main');
+                                Navigator.pushReplacementNamed(context, '/game_main',arguments: {
+                                  'isFirst':false
+                                });
                               },
                               child: const Text("再次挑战"),
                               style: ButtonStyle(

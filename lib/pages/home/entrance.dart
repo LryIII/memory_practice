@@ -13,22 +13,12 @@ class EntrancePage extends StatefulWidget {
 class _EntrancePageState extends State<EntrancePage> {
   final screenSize= window.physicalSize/window.devicePixelRatio;
   late Timer _timer;
-  //double nowPercent=0.0;
 
   @override
   void initState() {
     _timer=Timer(const Duration(milliseconds: 1000), (){
       Navigator.popAndPushNamed(context, '/game_main');
     });
-    // nowPercent=0.0;
-    // _timer=Timer.periodic(const Duration(milliseconds: 20),(timer){
-    //   nowPercent=_timer.tick.toDouble()/50.0;
-    //   if(_timer.tick==50){
-    //     //timerCancel();
-    //     _timer.cancel();
-    //     Navigator.popAndPushNamed(context, '/game_main');
-    //   }
-    // });
     super.initState();
   }
   @override
