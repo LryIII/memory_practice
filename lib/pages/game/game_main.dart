@@ -178,7 +178,7 @@ class _GameMainState extends State<GameMain> {
               ),
             ],
           ),
-          const SizedBox(height: 30,),
+          const SizedBox(height: 43,),
           Container(
             height: 300.0 * 618.0 / 772.0,
             width: 300,
@@ -188,7 +188,7 @@ class _GameMainState extends State<GameMain> {
                 )
             ),
           ),
-          const SizedBox(height: 50,),
+          const SizedBox(height: 66,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
@@ -205,7 +205,7 @@ class _GameMainState extends State<GameMain> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: showSmallImages(nowThreeImages),
           ),
-          const SizedBox(height: 30,),
+          const SizedBox(height: 60,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

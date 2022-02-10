@@ -41,100 +41,101 @@ class _GrowContentState extends State<GrowContent> {
               ),
             ),
             Align(
-              alignment: const Alignment(0, -0.74),
+              alignment: const Alignment(0,0),
               child: SizedBox(
-                height: 70 * 1.01,
+                height: 690.1,
                 width: 317 * 1.05,
-                //color: Colors.red,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text(
-                      "自我提升",
-                      style: TextStyle(
-                          fontSize: 33.3, fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Align(
-              alignment: const Alignment(0, -0.49),
-              child: Container(
-                width: 307.0,
-                height: 100.0,
-                decoration: BoxDecoration(
-                  color: Colors.red,
-                  //border: Border.all(),
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    const SizedBox(height: 30,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text(
+                          "自我提升",
+                          style: TextStyle(
+                              fontSize: 33.3, fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 30,),
                     Container(
                       width: 307.0,
-                      height: 30,
-                      decoration: const BoxDecoration(
-                          color: Color.fromARGB(0xff, 208, 230, 253),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20.0),
-                            topRight: Radius.circular(20.0),
-                          )),
-                      child: const Padding(
-                        padding: EdgeInsets.only(
-                          left: 8.0,
-                          top: 3.0,
-                        ),
-                        child: Text(
-                          '20连对最佳记录',
-                          style: TextStyle(
-                              color: Color.fromARGB(0xff, 70, 109, 212),
-                              fontWeight: FontWeight.bold),
-                        ),
+                      height: 100.0,
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        //border: Border.all(),
+                        borderRadius: BorderRadius.circular(20.0),
                       ),
-                    ),
-                    Container(
-                      width: 307.2,
-                      height: 70,
-                      decoration: const BoxDecoration(
-                        color: Color.fromARGB(0xff, 255, 255, 255),
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(20.0),
-                          bottomRight: Radius.circular(20.0),
-                        ),
-                      ),
-                      child: Row(
-                        children: const [
-                          GrowStateBox(
-                            title: "6秒666",
-                            subtitle: "最佳记录",
+                      child: Column(
+                        children: [
+                          Container(
+                            width: 307.0,
+                            height: 30,
+                            decoration: const BoxDecoration(
+                                color: Color.fromARGB(0xff, 208, 230, 253),
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20.0),
+                                  topRight: Radius.circular(20.0),
+                                )),
+                            child: const Padding(
+                              padding: EdgeInsets.only(
+                                left: 8.0,
+                                top: 3.0,
+                              ),
+                              child: Text(
+                                '20连对最佳记录',
+                                style: TextStyle(
+                                    color: Color.fromARGB(0xff, 70, 109, 212),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
                           ),
-                          GrowStateBox(
-                            title: "666",
-                            subtitle: "排行榜上",
-                          ),
-                          GrowStateBox(
-                            title: "江湖豪侠",
-                            subtitle: "等级状态",
+                          Container(
+                            width: 307.2,
+                            height: 70,
+                            decoration: const BoxDecoration(
+                              color: Color.fromARGB(0xff, 255, 255, 255),
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(20.0),
+                                bottomRight: Radius.circular(20.0),
+                              ),
+                            ),
+                            child: Row(
+                              children: const [
+                                GrowStateBox(
+                                  title: "6秒666",
+                                  subtitle: "最佳记录",
+                                ),
+                                GrowStateBox(
+                                  title: "666",
+                                  subtitle: "排行榜上",
+                                ),
+                                GrowStateBox(
+                                  title: "江湖豪侠",
+                                  subtitle: "等级状态",
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
                     ),
+                    const SizedBox(height: 30.0,),
+                    Container(
+                      width: 307.0,
+                      height: 418.0,
+                      decoration: BoxDecoration(
+                        color: const Color(0x933F51B5),//Colors.indigo[300],
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: const GrowLineChart(),
+                    ),
                   ],
                 ),
               ),
             ),
-            Align(
-              alignment: const Alignment(0,0.645),
-              child: Container(
-                width: 307.0,
-                height: 418.0,
-                decoration: BoxDecoration(
-                  color: const Color(0x933F51B5),//Colors.indigo[300],
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: GrowLineChart(),
-              ),
-            )
           ],
         ),
       ),

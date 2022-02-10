@@ -52,89 +52,97 @@ class _RankContentState extends State<RankContent> {
               ),
             ),
             Align(
-              alignment: const Alignment(0,-0.74),
-              child: Container(
-                height: 50*1.01,
-                width: 257*1.01,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/transparent_rank_1.png'),
-                    fit: BoxFit.fill,
-                  )
-                ),
-                child: Row(
-                  children: const [
-                    Text(
-                      "我的排名:"
-                    ),
-                    SizedBox(width: 50,),
-                    Text("称号秒数:")
-                  ],
-                ),
-              ),
-            ),
-            Align(
-              alignment: const Alignment(0,0.55),
-              child: Container(
+              alignment: const Alignment(0,0),
+              child: SizedBox(
+                height: 690.1,
                 width: 317*1.05,
-                height: 420+162.5,
-                decoration: BoxDecoration(
-                  //border: Border.all(),
-                  borderRadius: BorderRadius.circular(40.0),
-                ),
-                child: ListView.builder(
-                  padding: const EdgeInsets.only(top: 0.0),
-                  itemCount: itemCount,//
-                  itemBuilder: (context,index){
-                    int rankIndex=index+1;
-                    return SizedBox(
-                      height: 60,
-                      child: Row(
-                        children: [
-                          const SizedBox(width: 7,),
-                          SizedBox(
-                            width:8.8,
-                            child: Text(
-                              rankIndex<=9?"$rankIndex ":"$rankIndex",
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 13.0
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 10,),
-                          const CircleAvatar(
-                            backgroundImage: AssetImage('assets/images/twt_round.png'),
-                          ),
-                          const SizedBox(width: 10,),
-                          SizedBox(
-                            width: 120.3,
-                            child: Text(
-                              allRankData[index]['name'].toString(),
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 13.0
-                              ),
-                            ),
-                          ),
-                          RankTimeText(
-                            type: 1,
-                            child: Text(
-                              getRankTimeText(index),
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 13.0,
-                              ),
-                            ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 30,),
+                    Container(
+                      height: 50*1.01,
+                      width: 257*1.01,
+                      decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('assets/images/transparent_rank_1.png'),
+                            fit: BoxFit.fill,
                           )
+                      ),
+                      child: Row(
+                        children: const [
+                          Text(
+                              "我的排名:"
+                          ),
+                          SizedBox(width: 50,),
+                          Text("称号秒数:")
                         ],
                       ),
-                    );
-                  },
-                  physics: const BouncingScrollPhysics(),
-                ),
+                    ),
+                    const SizedBox(height: 12.3,),
+                    Container(
+                      width: 317*1.05,
+                      height: 420+162.5,
+                      decoration: BoxDecoration(
+                        //border: Border.all(),
+                        borderRadius: BorderRadius.circular(40.0),
+                      ),
+                      child: ListView.builder(
+                        padding: const EdgeInsets.only(top: 0.0),
+                        itemCount: itemCount,//
+                        itemBuilder: (context,index){
+                          int rankIndex=index+1;
+                          return SizedBox(
+                            height: 60,
+                            child: Row(
+                              children: [
+                                const SizedBox(width: 7,),
+                                SizedBox(
+                                  width:8.8,
+                                  child: Text(
+                                    rankIndex<=9?"$rankIndex ":"$rankIndex",
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 13.0
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 10,),
+                                const CircleAvatar(
+                                  backgroundImage: AssetImage('assets/images/twt_round.png'),
+                                ),
+                                const SizedBox(width: 10,),
+                                SizedBox(
+                                  width: 120.3,
+                                  child: Text(
+                                    allRankData[index]['name'].toString(),
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 13.0
+                                    ),
+                                  ),
+                                ),
+                                RankTimeText(
+                                  type: 1,
+                                  child: Text(
+                                    getRankTimeText(index),
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 13.0,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          );
+                        },
+                        physics: const BouncingScrollPhysics(),
+                      ),
+                    ),
+                  ],
+                )
               ),
-            )
+            ),
           ],
         ),
       ),
