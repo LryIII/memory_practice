@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:memory_practice/components/global.dart';
 import 'package:memory_practice/pages/game/game_small_image.dart';
 import 'package:memory_practice/pages/game/slide_image_entrance.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
@@ -34,7 +35,8 @@ class _GameMainState extends State<GameMain> {
   late bool isWin;
   final Size screenSize = window.physicalSize / window.devicePixelRatio;
   final StopWatchTimer _stopWatchTimer = StopWatchTimer();
-
+  final double unitH=GlobalUnit().unitHeight;
+  final double unitW=GlobalUnit().unitWidth;
   void gameStart() {
     nowIndex = 0;
     nowQuestion = 0;
@@ -162,8 +164,8 @@ class _GameMainState extends State<GameMain> {
         ];
       case 1:
         return [
-          const SizedBox(
-            height: 30,
+          SizedBox(
+            height: 30*unitH,
             width: double.infinity,
           ),
           Row(
@@ -180,15 +182,15 @@ class _GameMainState extends State<GameMain> {
           ),
           const SizedBox(height: 43,),
           Container(
-            height: 300.0 * 618.0 / 772.0,
-            width: 300,
+            height: 300.0 * 618.0 / 772.0*unitH,
+            width: 300*unitW,
             decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(questions[answersRight[nowQuestion]]),
                 )
             ),
           ),
-          const SizedBox(height: 66,),
+          SizedBox(height: 73*unitH,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
@@ -205,7 +207,7 @@ class _GameMainState extends State<GameMain> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: showSmallImages(nowThreeImages),
           ),
-          const SizedBox(height: 60,),
+          SizedBox(height: 70*unitH,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -232,12 +234,12 @@ class _GameMainState extends State<GameMain> {
               ),
             ],
           ),
-          const SizedBox(height: 5,),
+          SizedBox(height: 5*unitH,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                height: 40,
+                height: 40*unitH,
                 child: ElevatedButton.icon(
                   onPressed: () {
                     setState(() {
@@ -280,10 +282,10 @@ class _GameMainState extends State<GameMain> {
         height: 110.0 * 618.0 / 772.0,
         width: 110,
         decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(questions[index]),
-              fit: BoxFit.cover,
-            )
+          image: DecorationImage(
+            image: AssetImage(questions[index]),
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );
@@ -437,7 +439,6 @@ class _GameMainState extends State<GameMain> {
       height: double.infinity,
       child: Stack(
         children: [
-
           Scaffold(
             appBar: AppBar(
               leading: IconButton(
