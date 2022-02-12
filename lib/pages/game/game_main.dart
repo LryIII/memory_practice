@@ -58,7 +58,7 @@ class _GameMainState extends State<GameMain> {
     answersRight.add(Random().nextInt(10));
     getAllSmallImage();
     nowThreeImages = [0, 0, 0];
-    FlameAudio.audioCache.loadAll(['assets/music/error.mp3','assets/music/right.mp3']);
+    FlameAudio.audioCache.loadAll(['error.mp3','right.mp3']);
   }
 
   void newQuestion() {
@@ -69,17 +69,17 @@ class _GameMainState extends State<GameMain> {
       // Start
       stateList = [0, 0, 0];
       nowQuestion++;
-      if (nowQuestion == 21) {
-        gameOver();
-        return;
-      }
       if (nowQuestion >= 2) {
         if (answersRight[nowQuestion - 2] != answersUser[nowQuestion - 2]) {
           isWin = false;
-          FlameAudio.audioCache.play('assets/music/error.mp3');
+          FlameAudio.audioCache.play('error.mp3');
         }else{
-          FlameAudio.audioCache.play('assets/music/right.mp3');
+          FlameAudio.audioCache.play('right.mp3');
         }
+      }
+      if (nowQuestion == 21) {
+        gameOver();
+        return;
       }
       answersRight.add(Random().nextInt(10));
       getThreeImages();
@@ -319,8 +319,8 @@ class _GameMainState extends State<GameMain> {
           setState(() {});
           Future.delayed(
             const Duration(milliseconds: 250), () {
-            newQuestion();
-          },
+              newQuestion();
+            },
           );
         },
         imageUrl: questions[_list[0]],
@@ -332,7 +332,6 @@ class _GameMainState extends State<GameMain> {
           answersUser.add(_list[1]);
           if (nowQuestion >= 1) {
             if (answersRight[nowQuestion - 1] == answersUser[nowQuestion - 1]) {
-              //isWin=false;
               stateList[1] = 1;
             } else {
               stateList[1] = 2;
@@ -340,8 +339,8 @@ class _GameMainState extends State<GameMain> {
             setState(() {});
             Future.delayed(
               const Duration(milliseconds: 250), () {
-              newQuestion();
-            },
+                newQuestion();
+              },
             );
           }
         },
