@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:memory_practice/components/global.dart';
 import 'package:memory_practice/pages/game/game_small_image.dart';
@@ -37,6 +38,7 @@ class _GameMainState extends State<GameMain> {
   final StopWatchTimer _stopWatchTimer = StopWatchTimer();
   final double unitH=GlobalUnit().unitHeight;
   final double unitW=GlobalUnit().unitWidth;
+
   void gameStart() {
     nowIndex = 0;
     nowQuestion = 0;
@@ -56,6 +58,7 @@ class _GameMainState extends State<GameMain> {
     answersRight.add(Random().nextInt(10));
     getAllSmallImage();
     nowThreeImages = [0, 0, 0];
+    FlameAudio.audioCache.loadAll(['assets/music/error.mp3','assets/music/right.mp3']);
   }
 
   void newQuestion() {
@@ -73,6 +76,9 @@ class _GameMainState extends State<GameMain> {
       if (nowQuestion >= 2) {
         if (answersRight[nowQuestion - 2] != answersUser[nowQuestion - 2]) {
           isWin = false;
+          FlameAudio.audioCache.play('assets/music/error.mp3');
+        }else{
+          FlameAudio.audioCache.play('assets/music/right.mp3');
         }
       }
       answersRight.add(Random().nextInt(10));

@@ -38,6 +38,7 @@ dependencies:
   flutter_smart_dialog: ^3.3.1
   dio: ^4.0.4
   fl_chart: ^0.41.0
+  flame_audio: ^1.0.0
 
 dev_dependencies:
   flutter_test:
