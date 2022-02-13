@@ -34,6 +34,7 @@ class HomeContent extends StatelessWidget {
                     ),
                 ),
                 onTap: (){
+                  Navigator.of(context).pushNamed('/login');
                 },
               ),
             ),
