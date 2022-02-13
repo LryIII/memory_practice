@@ -68,9 +68,6 @@ class EndFailDialog extends Dialog{
                             fit: BoxFit.cover,
                           ),
                         ),
-                        // child: Image(
-                        //   image: AssetImage,
-                        // ),
                       ),
                     ],
                   ),
@@ -83,7 +80,8 @@ class EndFailDialog extends Dialog{
                         "点击查看排行榜"
                     ),
                     onPressed: (){
-
+                      Navigator.pop(context);
+                      Navigator.popAndPushNamed(context, '/rank');
                     },
                     style: ButtonStyle(
                         overlayColor: MaterialStateProperty.all(

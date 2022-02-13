@@ -318,7 +318,7 @@ class _GameMainState extends State<GameMain> {
           }
           setState(() {});
           Future.delayed(
-            const Duration(milliseconds: 250), () {
+            const Duration(milliseconds: 150), () {
               newQuestion();
             },
           );
@@ -338,7 +338,7 @@ class _GameMainState extends State<GameMain> {
             }
             setState(() {});
             Future.delayed(
-              const Duration(milliseconds: 250), () {
+              const Duration(milliseconds: 150), () {
                 newQuestion();
               },
             );
@@ -361,7 +361,7 @@ class _GameMainState extends State<GameMain> {
             }
             setState(() {});
             Future.delayed(
-              const Duration(milliseconds: 250), () {
+              const Duration(milliseconds: 150), () {
               newQuestion();
             },
             );
