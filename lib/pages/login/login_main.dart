@@ -175,4 +175,47 @@ class _LoginPageState extends State<LoginPage> {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
   }
 
+  void loginAll() {
+    loseFocus();
+    if(checkUserName() && checkPassWord()) {
+      loginFunction();
+    }
+  }
+
+  bool checkUserName() {
+    String userName=_userNameEditingController.text;
+    if(userName.isEmpty){
+      _userNameStreamController.add('用户名不得为空');
+      return false;
+    }
+    if(userName.length>=8){
+      _userNameStreamController.add('用户名不得超过8个字符');
+      return false;
+    }
+    if(userName.contains('%')){
+      _userNameStreamController.add('用户名请勿包含“%”');
+      return false;
+    }
+    _userNameStreamController.add(null);
+    return true;
+  }
+
+  bool checkPassWord() {
+    String pwd=_passWordEditingController.text;
+    if(pwd.isEmpty){
+      _passWordStreamController.add('密码不得为空');
+      return false;
+    }
+    if(pwd.length<=6){
+      _passWordStreamController.add('密码不得短于6位');
+      return false;
+    }
+    _passWordStreamController.add(null);
+    return true;
+  }
+
+  void loginFunction() {
+
+  }
+
 }
