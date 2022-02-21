@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:memory_practice/components/store.dart';
 
 import '../../components/global.dart';
 
@@ -73,7 +75,8 @@ class _LoginPageState extends State<LoginPage> {
                 userNameTextField(),
                 SizedBox(height: 25*unitH,),
                 passWordTextField(),
-                SizedBox(height: 20*unitH,),
+                SizedBox(height: 1*unitH,),
+                registerButton(),
                 loginButton(),
               ],
             ),
@@ -99,6 +102,26 @@ class _LoginPageState extends State<LoginPage> {
                 borderRadius: BorderRadius.circular(8.0),
               )
             ),
+            onSubmitted: (value){
+              if(checkUserName()){
+                _userNameFocus.unfocus();
+                //print(userName);
+                FocusScope.of(context).requestFocus(_passWordFocus);
+              }else{
+                FocusScope.of(context).requestFocus(_userNameFocus);
+              }
+            },
+            onChanged: (value){
+              if(value.length>=8){
+                _userNameStreamController.add('用户名不得超过8个字符');
+                return ;
+              }
+              if(value.contains('%')){
+                _userNameStreamController.add('用户名请勿包含“%”');
+                return ;
+              }
+              _userNameStreamController.add(null);
+            },
           ),
         );
       },
@@ -132,6 +155,9 @@ class _LoginPageState extends State<LoginPage> {
                 },
               ),
             ),
+            onSubmitted: (value){
+              loginAll();
+            },
           ),
         );
       },
@@ -152,7 +178,7 @@ class _LoginPageState extends State<LoginPage> {
             "登录",
           ),
           onPressed: (){
-
+            loginAll();
           },
           style: ButtonStyle(
             textStyle: MaterialStateProperty.all(
@@ -164,6 +190,21 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
+    );
+  }
+  Widget registerButton() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        TextButton(
+          child: const Text(
+            "注册",
+          ),
+          onPressed: (){
+            Navigator.pushNamed(context, '/register');
+          },
+        )
+      ],
     );
   }
 
@@ -214,8 +255,20 @@ class _LoginPageState extends State<LoginPage> {
     return true;
   }
 
-  void loginFunction() {
-
+  void loginFunction() async{
+    try{
+      String rightPwd=await SharedPreferenceUnit.getData(_userNameEditingController.text);
+      if(rightPwd==_passWordEditingController.text){
+        SmartDialog.showToast('登录成功');
+        Navigator.of(context).pop();
+      }
+      else{
+        SmartDialog.showToast('密码错误');
+      }
+    }catch(e){
+      SmartDialog.showToast('用户名不存在');
+      print(e);
+      return ;
+    }
   }
-
 }

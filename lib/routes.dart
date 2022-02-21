@@ -4,6 +4,7 @@ import 'package:memory_practice/pages/grow/grow_main.dart';
 import 'package:memory_practice/pages/home/entrance.dart';
 import 'package:memory_practice/pages/home/home_content.dart';
 import 'package:memory_practice/pages/login/login_main.dart';
+import 'package:memory_practice/pages/login/register_main.dart';
 import 'package:memory_practice/pages/rank/rank_main.dart';
 final routes={
   '/':(_)=>HomeContent(),
@@ -12,6 +13,7 @@ final routes={
   '/rank':(_)=>const RankContent(),
   '/grow':(_)=>const GrowContent(),
   '/login':(_)=>const LoginPage(),
+  '/register':(_)=>RegisterPage(),
 };
 Route? onGenerateRoute(RouteSettings settings){
   final String? name=settings.name;
