@@ -24,7 +24,9 @@ class EndFailDialog extends Dialog{
                     ),
                     onPressed: (){
                       Navigator.pop(context);
-                      Navigator.pushReplacementNamed(context, '/game_main');
+                      Navigator.pushReplacementNamed(context, '/game_main',arguments: {
+                        'isFirst':false
+                      });
                     },
                   ),
                 )
@@ -53,7 +55,6 @@ class EndFailDialog extends Dialog{
                   ),
                 ),
                 Positioned(
-                  //alignment: const Alignment(0,0),
                   left: 31,
                   top: 70,
                   child: Column(
@@ -226,7 +227,9 @@ class EndWinDialog extends Dialog{
                     ),
                     onPressed: (){
                       Navigator.pop(context);
-                      Navigator.pushReplacementNamed(context, '/game_main');
+                      Navigator.pushReplacementNamed(context, '/game_main',arguments: {
+                        'isFirst':false
+                      });
                     },
                   ),
                 )

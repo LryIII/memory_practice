@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../../components/global.dart';
+
 class SmallImage extends StatelessWidget {
   final void Function()? onTap;
   final String imageUrl;
   final int state;
-  const SmallImage({
+  final double unitH=GlobalUnit().unitHeight;
+  final double unitW=GlobalUnit().unitWidth;
+  SmallImage({
     required this.onTap,
     required this.imageUrl,
     required this.state,
@@ -17,8 +21,8 @@ class SmallImage extends StatelessWidget {
       return GestureDetector(
         onTap: onTap,
         child: Container(
-          height: 110.0*618.0/772.0,
-          width: 110,
+          height: 110.0*618.0/772.0*unitH,
+          width: 110*unitW,
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage(imageUrl),
@@ -32,15 +36,15 @@ class SmallImage extends StatelessWidget {
       return GestureDetector(
         onTap: onTap,
         child: SizedBox(
-          height: 110.0*618.0/772.0,
-          width: 110,
+          height: 110.0*618.0/772.0*unitH,
+          width: 110*unitW,
           child: Stack(
             children: [
               Align(
                 alignment: const Alignment(0, 0),
                 child: Container(
-                  height: 110.0*618.0/772.0*0.95,
-                  width: 110*0.95,
+                  height: 110.0*618.0/772.0*0.95*unitH,
+                  width: 110*0.95*unitW,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(imageUrl),
@@ -70,15 +74,15 @@ class SmallImage extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: SizedBox(
-        height: 110.0*618.0/772.0,
-        width: 110,
+        height: 110.0*618.0/772.0*unitH,
+        width: 110*unitW,
         child: Stack(
           children: [
             Align(
               alignment: const Alignment(0, 0),
               child: Container(
-                height: 110.0*618.0/772.0*0.95,
-                width: 110*0.95,
+                height: 110.0*618.0/772.0*0.95*unitH,
+                width: 110*0.95*unitW,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage(imageUrl),

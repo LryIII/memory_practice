@@ -107,8 +107,8 @@ class _GameMainState extends State<GameMain> {
     switch (gameStatus) {
       case 0 :
         return [
-          const SizedBox(
-            height: 30,
+          SizedBox(
+            height: 30*unitH,
             width: double.infinity,
           ),
           Row(
@@ -125,8 +125,8 @@ class _GameMainState extends State<GameMain> {
           ),
           const SizedBox(height: 30,),
           Container(
-            height: 300.0 * 618.0 / 772.0,
-            width: 300,
+            height: 300.0 * 618.0 / 772.0*unitH,
+            width: 300*unitW,
             decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(questions[answersRight[0]]),
@@ -135,7 +135,7 @@ class _GameMainState extends State<GameMain> {
           ),
           SizedBox(height: screenSize.height - 550.0,),
           Container(
-            height: 45,
+            height: 45*unitH,
             width: double.infinity,
             margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
             child: ElevatedButton(
@@ -186,7 +186,7 @@ class _GameMainState extends State<GameMain> {
               ),
             ],
           ),
-          const SizedBox(height: 43,),
+          SizedBox(height: 43*unitH,),
           Container(
             height: 300.0 * 618.0 / 772.0*unitH,
             width: 300*unitW,
@@ -285,8 +285,8 @@ class _GameMainState extends State<GameMain> {
         newQuestion();
       },
       child: Container(
-        height: 110.0 * 618.0 / 772.0,
-        width: 110,
+        height: 110.0 * 618.0 / 772.0*unitH,
+        width: 110*unitW,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage(questions[index]),
@@ -326,7 +326,7 @@ class _GameMainState extends State<GameMain> {
         imageUrl: questions[_list[0]],
         state: stateList[0], //1,
       ),
-      const SizedBox(width: 10,),
+      SizedBox(width: 10*unitW,),
       SmallImage(
         onTap: () {
           answersUser.add(_list[1]);
@@ -348,7 +348,7 @@ class _GameMainState extends State<GameMain> {
         state: stateList[1],
       ),
       // smallImages[0],
-      const SizedBox(width: 10,),
+      SizedBox(width: 10*unitW,),
       SmallImage(
         onTap: () {
           answersUser.add(_list[2]);
@@ -403,11 +403,6 @@ class _GameMainState extends State<GameMain> {
       context: context,
       builder: (context) {
         return const EndFailDialog();
-        // return EndWinDialog(
-        //   second: finishTime%60,
-        //   minute: finishTime~/60,
-        //   millisecond: finishTimeMillisecond%1000,
-        // );
       },
     );
   }
@@ -415,7 +410,6 @@ class _GameMainState extends State<GameMain> {
   void gameOver() {
     finishTime = _stopWatchTimer.secondTime.value;
     finishTimeMillisecond = _stopWatchTimer.rawTime.value;
-    //print(finishTimeMillisecond);
     gameStatus = 2;
     _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
     if (gameJudge()) {

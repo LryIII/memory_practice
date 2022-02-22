@@ -38,6 +38,23 @@ class HomeContent extends StatelessWidget {
                 },
               ),
             ),
+            Align(
+              alignment: const Alignment(0,-0.56),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text(
+                    "点此登录",
+                    style: TextStyle(
+                      fontSize: 20.0
+                    ),
+                  ),
+                  Icon(
+                    Icons.arrow_upward
+                  )
+                ],
+              ),
+            ),
             AlignImageButton(
               alignment: const Alignment(0,-0.35),
               imageUrl: 'assets/images/game.png',

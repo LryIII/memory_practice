@@ -67,9 +67,7 @@ class _AnimatedSlideImageBottomState extends State<AnimatedSlideImageBottom> {
   late double nowY;
   @override
   void initState() {
-    print(screenHeight);
-    print(screenWidth);
-    nowY=1.045;//-0.812+0.15;
+    nowY=1.045;
     _timer=Timer.periodic(const Duration(milliseconds: 20),
       (timer) {
          if(_timer.tick==50) {
