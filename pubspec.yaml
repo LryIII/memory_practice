@@ -40,6 +40,7 @@ dependencies:
   fl_chart: ^0.41.0
   flame_audio: ^1.0.0
   shared_preferences: ^2.0.13
+  pull_to_refresh: ^2.0.0
 
 dev_dependencies:
   flutter_test:

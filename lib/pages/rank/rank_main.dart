@@ -1,6 +1,9 @@
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:memory_practice/pages/rank/rank_network.dart';
 import 'package:memory_practice/pages/rank/rank_time_text.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../components/global.dart';
 
@@ -13,19 +16,75 @@ class RankContent extends StatefulWidget {
 
 class _RankContentState extends State<RankContent> {
   int itemCount=0,second=0,millisecond=0,minute=0;
+  int currentTime=1;
+  late int nowEnd;
   List allRankData=[];
   final unitH=GlobalUnit().unitHeight;
   final unitW=GlobalUnit().unitWidth;
+
+  final RefreshController _refreshController = RefreshController(
+    initialRefresh: false,
+  );
+  void _onRefresh() async{
+    Map temp= await RankMyItem().getAllRank(1, nowEnd);
+    allRankData.clear();
+    allRankData.addAll(temp['result'].toList());
+    if(mounted){
+      setState(() {
+
+      });
+    }
+    _refreshController.refreshCompleted();
+  }
+  void _onLoading() async{
+    if((currentTime-1)*10+1>itemCount){
+      nowEnd=itemCount;
+      _refreshController.loadNoData();
+      if(mounted){
+        setState(() {
+        });
+      }
+      return ;
+    }
+    if(currentTime*10>itemCount){
+      Map temp= await RankMyItem().getAllRank((currentTime-1)*10+1, itemCount);
+      allRankData.addAll(temp['result'].toList());
+      currentTime++;
+      nowEnd=itemCount;
+      if(mounted){
+        setState(() {
+
+        });
+      }
+      _refreshController.loadComplete();
+      return ;
+    }
+    Map temp= await RankMyItem().getAllRank((currentTime-1)*10+1, currentTime*10);
+    allRankData.addAll(temp['result'].toList());
+    currentTime++;
+    nowEnd=currentTime*10;
+    if(mounted){
+      setState(() {
+
+      });
+    }
+    _refreshController.loadComplete();
+  }
   getData() async{
     itemCount= await RankMyItem().getAllNum();
-    Map temp= await RankMyItem().getAllRank(1, itemCount);
-    allRankData=temp['result'].toList();
+    if(itemCount>=100){
+      itemCount=99;
+    }
+    Map temp= await RankMyItem().getAllRank((currentTime-1)*10+1, currentTime*10);
+    allRankData.addAll(temp['result'].toList());
+    currentTime++;
     setState(() {
 
     });
   }
   @override
   void initState() {
+    nowEnd=10;
     getData();
     super.initState();
   }
@@ -91,56 +150,91 @@ class _RankContentState extends State<RankContent> {
                           //border: Border.all(),
                           borderRadius: BorderRadius.circular(40.0),
                         ),
-                        child: ListView.builder(
-                          padding: const EdgeInsets.only(top: 0.0),
-                          itemCount: itemCount,//
-                          itemBuilder: (context,index){
-                            int rankIndex=index+1;
-                            return SizedBox(
-                              height: 60*unitH,
-                              child: Row(
-                                children: [
-                                  SizedBox(width: 7*unitW,),
-                                  SizedBox(
-                                    width:8.8*unitW,
-                                    child: Text(
-                                      rankIndex<=9?"$rankIndex ":"$rankIndex",
-                                      style: const TextStyle(
+                        child: SmartRefresher(
+                          controller: _refreshController,
+                          enablePullDown: true,
+                          enablePullUp: true,
+                          header: const WaterDropHeader(),
+                          onLoading: _onLoading,
+                          onRefresh: _onRefresh,
+                          footer:  CustomFooter(
+                            builder: (BuildContext context,LoadStatus? mode){
+                              Widget body ;
+                              TextStyle _style=const TextStyle(
+                                color: Colors.white,
+                              );
+                              if(mode==LoadStatus.idle){
+                                body = Text("上拉加载",style: _style,);
+                              }
+                              else if(mode==LoadStatus.loading){
+                                body =  const CupertinoActivityIndicator();
+                              }
+                              else if(mode == LoadStatus.failed){
+                                body = Text("加载失败！点击重试！",style: _style,);
+                              }
+                              else if(mode == LoadStatus.canLoading){
+                                body = Text("松手,加载更多!",style: _style,);
+                              }
+                              else{
+                                body = Text("没有更多数据了!",style: _style,);
+                              }
+                              return Container(
+                                height: 55.0,
+                                child: Center(child:body),
+                              );
+                            },
+                          ),
+                          child: ListView.builder(
+                            padding: const EdgeInsets.only(top: 0.0),
+                            itemCount: allRankData.length,//
+                            itemBuilder: (context,index){
+                              int rankIndex=index+1;
+                              return SizedBox(
+                                height: 60*unitH,
+                                child: Row(
+                                  children: [
+                                    SizedBox(width: 7*unitW,),
+                                    SizedBox(
+                                      width:15.0*unitW,
+                                      child: Text(
+                                        rankIndex<=9?"$rankIndex ":"$rankIndex",
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 13.0
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 10*unitW,),
+                                    const CircleAvatar(
+                                      backgroundImage: AssetImage('assets/images/twt_round.png'),
+                                    ),
+                                    SizedBox(width: 10*unitW,),
+                                    SizedBox(
+                                      width: 120.3*unitW,
+                                      child: Text(
+                                        allRankData[index]['name'].toString(),
+                                        style: const TextStyle(
                                           color: Colors.white,
-                                          fontSize: 13.0
+                                          fontSize: 13.0,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(width: 10*unitW,),
-                                  const CircleAvatar(
-                                    backgroundImage: AssetImage('assets/images/twt_round.png'),
-                                  ),
-                                  SizedBox(width: 10*unitW,),
-                                  SizedBox(
-                                    width: 120.3*unitW,
-                                    child: Text(
-                                      allRankData[index]['name'].toString(),
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 13.0,
+                                    RankTimeText(
+                                      type: 1,
+                                      child: Text(
+                                        getRankTimeText(index),
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 13.0,
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                  RankTimeText(
-                                    type: 1,
-                                    child: Text(
-                                      getRankTimeText(index),
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 13.0,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            );
-                          },
-                          physics: const BouncingScrollPhysics(),
+                                    )
+                                  ],
+                                ),
+                              );
+                            },
+                            physics: const BouncingScrollPhysics(),
+                          ),
                         ),
                       ),
                     ],
