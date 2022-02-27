@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:memory_practice/components/store.dart';
+import 'package:memory_practice/pages/login/login_network.dart';
 
 import '../../components/global.dart';
 
@@ -34,6 +35,85 @@ class _LoginPageState extends State<LoginPage> {
   }
   @override
   Widget build(BuildContext context) {
+    return globalData.isLogin?haveLogin():loginWidget();
+  }
+
+  Widget haveLogin(){
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+            size: 20.0,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        elevation: 0.8,
+        backgroundColor: const Color.fromARGB(0xff, 246, 246, 246),
+        title: const Text(
+          "登录",
+          textAlign: TextAlign.left,
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 18.0,
+          ),
+        ),
+      ),
+      body: Container(
+        width: double.infinity,
+        height:double.infinity,
+        decoration: const BoxDecoration(
+          color: Color.fromARGB(0xff, 246, 246, 246),
+        ),
+        child: SingleChildScrollView(
+          child: SizedBox(
+            height: 660*unitH,
+            width: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text(
+                  "您已经登录过啦",
+                  style: TextStyle(
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Text(
+                  "无需重复操作",
+                  style: TextStyle(
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: 30.0*unitH,
+                ),
+                ElevatedButton(
+                  onPressed: () async{
+                    await SharedPreferenceUnit.saveData<bool>("isLogin", false);
+                    //print(await SharedPreferenceUnit.getData<bool>("isLogin"));
+                    globalData.logout();
+                    setState(() {
+
+                    });
+                  },
+                  child: const Text(
+                    "登出"
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+  Widget loginWidget(){
     return GestureDetector(
       onTap: (){
         loseFocus();
@@ -85,7 +165,6 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
   StreamBuilder<String?> userNameTextField() {
     return StreamBuilder<String?>(
       stream: _userNameStreamController.stream,
@@ -116,8 +195,8 @@ class _LoginPageState extends State<LoginPage> {
                 _userNameStreamController.add('用户名不得超过8个字符');
                 return ;
               }
-              if(value.contains('%')){
-                _userNameStreamController.add('用户名请勿包含“%”');
+              if(!value.contains(RegExp(r"[\u4e00-\u9fa5ZA-ZZa-z0-9_]+$")) && value!=''){
+                _userNameStreamController.add('用户名仅能包含大，小写英文字母，数字，汉字，下划线');
                 return ;
               }
               _userNameStreamController.add(null);
@@ -233,8 +312,8 @@ class _LoginPageState extends State<LoginPage> {
       _userNameStreamController.add('用户名不得超过8个字符');
       return false;
     }
-    if(userName.contains('%')){
-      _userNameStreamController.add('用户名请勿包含“%”');
+    if(!userName.contains(RegExp(r"[\u4e00-\u9fa5ZA-ZZa-z0-9_]+$"))){
+      _userNameStreamController.add('用户名仅能包含大，小写英文字母，数字，汉字，下划线');
       return false;
     }
     _userNameStreamController.add(null);
@@ -247,7 +326,7 @@ class _LoginPageState extends State<LoginPage> {
       _passWordStreamController.add('密码不得为空');
       return false;
     }
-    if(pwd.length<=6){
+    if(pwd.length<6){
       _passWordStreamController.add('密码不得短于6位');
       return false;
     }
@@ -257,9 +336,24 @@ class _LoginPageState extends State<LoginPage> {
 
   void loginFunction() async{
     try{
-      String rightPwd=await SharedPreferenceUnit.getData(_userNameEditingController.text);
-      if(rightPwd==_passWordEditingController.text){
+      bool success=await LoginNetwork().login(
+        _userNameEditingController.text,
+        _passWordEditingController.text,
+      );
+      if(success){
         SmartDialog.showToast('登录成功');
+        await SharedPreferenceUnit.saveData<bool>('isLogin', true);
+        await SharedPreferenceUnit.saveData<String>(
+          '%userName',
+          _userNameEditingController.text,
+        );
+        await SharedPreferenceUnit.saveData<String>(
+          '%passWord',
+          _passWordEditingController.text,
+        );
+        globalData.userName=_userNameEditingController.text;
+        globalData.passWord=_passWordEditingController.text;
+        globalData.isLogin=true;
         Navigator.of(context).pop();
       }
       else{

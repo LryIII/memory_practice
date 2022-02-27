@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:memory_practice/components/global.dart';
 import 'package:memory_practice/pages/game/game_small_image.dart';
 import 'package:memory_practice/pages/game/slide_image_entrance.dart';
+import 'package:memory_practice/pages/grow/grow_network.dart';
+import 'package:memory_practice/pages/rank/rank_network.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 import '../../components/dialog.dart';
@@ -384,17 +386,61 @@ class _GameMainState extends State<GameMain> {
   }
 
   void gameWin() {
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) {
-        return EndWinDialog(
-          second: finishTime % 60,
-          minute: finishTime ~/ 60,
-          millisecond: finishTimeMillisecond % 1000,
+    if(globalData.isLogin){
+      double value=finishTime.toDouble()+finishTimeMillisecond.toDouble()%1000/1000;
+      GrowNetwork().addItem(
+        globalData.userName,
+        value,
+      );
+
+      setState(() {
+        globalData.update();
+        globalData.uploadBest();
+      });
+
+      if(value<=globalData.bestTime){
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) {
+            return EndWinDialog(
+              second: finishTime % 60,
+              minute: finishTime ~/ 60,
+              millisecond: finishTimeMillisecond % 1000,
+              type: 1,
+            );
+          },
         );
-      },
-    );
+      }
+      else{
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) {
+            return EndWinDialog(
+              second: finishTime % 60,
+              minute: finishTime ~/ 60,
+              millisecond: finishTimeMillisecond % 1000,
+              type: 0,
+            );
+          },
+        );
+      }
+    }
+    else{
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return EndWinDialog(
+            second: finishTime % 60,
+            minute: finishTime ~/ 60,
+            millisecond: finishTimeMillisecond % 1000,
+            type:2,
+          );
+        },
+      );
+    }
   }
 
   void gameFail() {

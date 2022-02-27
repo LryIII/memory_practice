@@ -193,11 +193,14 @@ class EndWinDialog extends Dialog{
   final int second;
   final int minute;
   final int millisecond;
+  //0 未刷新记录 ，1 刷新纪录 , 2未登录
+  final int type;
   const EndWinDialog({
     Key? key,
     required this.minute,
     required this.second,
-    required this.millisecond
+    required this.millisecond,
+    required this.type,
   }) : super(key: key) ;
 
   String getString(){
@@ -205,6 +208,15 @@ class EndWinDialog extends Dialog{
       return second.toString()+"秒"+millisecond.toString();
     }
     return minute.toString()+"分"+second.toString()+"秒";
+  }
+  String getTextString(){
+    if(type==0){
+      return getString()+"，加油！";
+    }
+    if(type==1){
+      return getString()+"，刷新个人记录！！";
+    }
+    return getString()+'您还未登录';
   }
   @override
   Widget build(BuildContext context) {

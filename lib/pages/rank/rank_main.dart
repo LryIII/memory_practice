@@ -1,6 +1,8 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:memory_practice/components/entrance_to_login.dart';
 import 'package:memory_practice/pages/rank/rank_network.dart';
 import 'package:memory_practice/pages/rank/rank_time_text.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -22,6 +24,9 @@ class _RankContentState extends State<RankContent> {
   final unitH=GlobalUnit().unitHeight;
   final unitW=GlobalUnit().unitWidth;
 
+  String rankString='';
+  String timeString='';
+
   final RefreshController _refreshController = RefreshController(
     initialRefresh: false,
   );
@@ -37,6 +42,16 @@ class _RankContentState extends State<RankContent> {
     _refreshController.refreshCompleted();
   }
   void _onLoading() async{
+    if(itemCount<=10){
+      nowEnd=itemCount;
+      if(mounted){
+        setState(() {
+
+        });
+      }
+      _refreshController.loadNoData();
+      return ;
+    }
     if((currentTime-1)*10+1>itemCount){
       nowEnd=itemCount;
       _refreshController.loadNoData();
@@ -71,20 +86,36 @@ class _RankContentState extends State<RankContent> {
     _refreshController.loadComplete();
   }
   getData() async{
+
+    if(globalData.isLogin){
+      await globalData.getMyRank();
+      await globalData.getBestTime();
+      rankString=globalData.rankMy ==0 ? " " : globalData.rankMy.toString();
+      timeString=globalData.bestTime >=12000.00 ? " " : globalData.bestTime.toString();
+    }
     itemCount= await RankMyItem().getAllNum();
     if(itemCount>=100){
       itemCount=99;
     }
-    Map temp= await RankMyItem().getAllRank((currentTime-1)*10+1, currentTime*10);
-    allRankData.addAll(temp['result'].toList());
-    currentTime++;
+    if(itemCount>=10){
+      Map temp= await RankMyItem().getAllRank((currentTime-1)*10+1, currentTime*10);
+      allRankData.addAll(temp['result'].toList());
+      currentTime++;
+      nowEnd=currentTime*10;
+    }else{
+      Map temp= await RankMyItem().getAllRank(1, itemCount);
+      allRankData.addAll(temp['result'].toList());
+      nowEnd=itemCount;
+    }
     setState(() {
 
     });
   }
   @override
   void initState() {
-    nowEnd=10;
+    if(globalData.bestTime<=10000){
+      globalData.uploadBest();
+    }
     getData();
     super.initState();
   }
@@ -123,23 +154,54 @@ class _RankContentState extends State<RankContent> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(height: 30*unitH,),
-                      Container(
-                        height: 50*1.01*unitH,
-                        width: 257*1.01*unitW,
-                        decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage('assets/images/transparent_rank_1.png'),
-                              fit: BoxFit.fill,
-                            )
-                        ),
-                        child: Row(
-                          children: [
-                            const Text(
-                                "我的排名:"
-                            ),
-                            SizedBox(width: 50*unitW,),
-                            const Text("称号秒数:")
-                          ],
+                      GestureDetector(
+                        onTap: (){
+                          if(globalData.isLogin){
+
+                          }else{
+                            SmartDialog.show(
+                              // here
+                              backDismiss: false,
+                              clickBgDismissTemp: false,
+                              isLoadingTemp: false,
+                              widget: EntranceToLogin(
+                                onPressed: (){
+                                  SmartDialog.dismiss();
+                                  Navigator.of(context).pushNamed('/login');
+                                },
+                              ),
+                            );
+                          }
+                        },
+                        child: Container(
+                          height: 50*1.01*unitH,
+                          width: 257*1.01*unitW,
+                          decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage('assets/images/transparent_rank_1.png'),
+                                fit: BoxFit.fill,
+                              )
+                          ),
+                          child: Row(
+                            children: [
+                              const Text(
+                                  "我的排名:"
+                              ),
+                              SizedBox(
+                                width: 50*unitW,
+                                child: Text(
+                                  rankString,
+                                ),
+                              ),
+                              const Text("称号秒数:"),
+                              SizedBox(
+                                width: 50*unitW,
+                                child: Text(
+                                  timeString,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       SizedBox(height: 12.3*unitH,),

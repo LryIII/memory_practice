@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:memory_practice/components/global.dart';
 import 'package:memory_practice/components/store.dart';
+import 'package:memory_practice/pages/login/login_network.dart';
 import 'package:memory_practice/pages/login/verify_code.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -251,7 +252,7 @@ class _RegisterPageState extends State<RegisterPage> {
           width: 140.0*unitW,
           height: 50.0*unitH,
           verifyCallback: (value){
-            rightVerifyCode=value;
+            rightVerifyCode=value.toLowerCase();
           },
         ),
       ],
@@ -308,7 +309,7 @@ class _RegisterPageState extends State<RegisterPage> {
       _passWordStreamController.add("密码只能包含字母数字");
       return false;
     }
-    if(pwd.length<=6){
+    if(pwd.length<6){
       _passWordStreamController.add("密码不得短于6个字符");
       return false;
     }
@@ -357,11 +358,20 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
   void registerFunction() async{
-    await SharedPreferenceUnit.saveData('%userName', _userNameEditingController.text);
-    await SharedPreferenceUnit.saveData('%passWord', _passWordEditingController.text);
-    await SharedPreferenceUnit
-      .saveData(_userNameEditingController.text, _passWordEditingController.text);
-    SmartDialog.showToast('注册成功',time: const Duration(milliseconds: 1500));
-    Navigator.of(context).pop();
+    int success=await LoginNetwork().register(
+      _userNameEditingController.text,
+      _passWordEditingController.text,
+    );
+    if(success==2){
+      await SharedPreferenceUnit.saveData<String>('%userName', _userNameEditingController.text);
+      await SharedPreferenceUnit.saveData<String>('%passWord', _passWordEditingController.text);
+
+      SmartDialog.showToast('注册成功',time: const Duration(milliseconds: 1500));
+      Navigator.of(context).pop();
+    }else if(success==1){
+      SmartDialog.showToast('该用户名已经被注册过',time: const Duration(milliseconds: 1500));
+    }else{
+      SmartDialog.showToast('注册失败',time: const Duration(milliseconds: 1500));
+    }
   }
 }

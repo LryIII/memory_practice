@@ -73,7 +73,7 @@ class RankMyItem {
           'name':name,
         }
       );
-      return response.data['result']=='1';
+      return response.data['result']=='1' || response.data['result']==1;
     }catch(e){
       //print(e);
       return false;
@@ -93,15 +93,36 @@ class RankMyItem {
   Future<int> getOneRank(String name)async{
     try{
       var response=await dio.get(
-        'http://localhost:9002/v1/admin/twt/ranking',
+        'http://101.43.148.116:9002/v1/admin/twt/ranking',
         queryParameters:{
           'name':name,
         }
       );
-      return response.data['result'].toInt();
-    }catch(e){
-      //print(e);
+      if(response.data['code']=='200' || response.data['code']==200){
+        return response.data['result'].toInt();
+      }
       return -1;
+    }catch(e){
+      print(e);
+      return -1;
+    }
+  }
+  Future<Map> changeRank(String name,double newTime) async{
+    try{
+      var response=await dio.put(
+        'http://101.43.148.116:9002/v1/admin/twt/sort',
+        queryParameters: {
+          "name":name,
+          "newTime":newTime,
+        }
+      );
+      if(response.data['code']==200 || response.data['code']=='200'){
+        return response.data;
+      }
+      return response.data;
+    }catch(e){
+      print(e);
+      return {};
     }
   }
 }
