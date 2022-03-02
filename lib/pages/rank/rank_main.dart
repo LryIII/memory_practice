@@ -30,7 +30,7 @@ class _RankContentState extends State<RankContent> {
   final RefreshController _refreshController = RefreshController(
     initialRefresh: false,
   );
-  void _onRefresh() async{
+  void _onRefresh() async {
     Map temp= await RankMyItem().getAllRank(1, nowEnd);
     allRankData.clear();
     allRankData.addAll(temp['result'].toList());
@@ -88,10 +88,8 @@ class _RankContentState extends State<RankContent> {
   getData() async{
 
     if(globalData.isLogin){
-      await globalData.getMyRank();
-      await globalData.getBestTime();
-      rankString=globalData.rankMy ==0 ? " " : globalData.rankMy.toString();
-      timeString=globalData.bestTime >=12000.00 ? " " : globalData.bestTime.toString();
+      rankString=await globalData.getMyRank();
+      timeString=await globalData.getBestTime();
     }
     itemCount= await RankMyItem().getAllNum();
     if(itemCount>=100){
@@ -100,12 +98,12 @@ class _RankContentState extends State<RankContent> {
     if(itemCount>=10){
       Map temp= await RankMyItem().getAllRank((currentTime-1)*10+1, currentTime*10);
       allRankData.addAll(temp['result'].toList());
-      currentTime++;
       nowEnd=currentTime*10;
+      currentTime++;
     }else{
+      nowEnd=itemCount;
       Map temp= await RankMyItem().getAllRank(1, itemCount);
       allRankData.addAll(temp['result'].toList());
-      nowEnd=itemCount;
     }
     setState(() {
 
@@ -257,7 +255,7 @@ class _RankContentState extends State<RankContent> {
                                   children: [
                                     SizedBox(width: 7*unitW,),
                                     SizedBox(
-                                      width:15.0*unitW,
+                                      width:18.0*unitW,
                                       child: Text(
                                         rankIndex<=9?"$rankIndex ":"$rankIndex",
                                         style: const TextStyle(
@@ -312,6 +310,9 @@ class _RankContentState extends State<RankContent> {
   String getRankTimeText(int index){
     double temp=allRankData[index]['time'].toDouble();
     int tempSecond=temp.toInt();
+    if(tempSecond>=100000){
+      return '——';
+    }
     second=tempSecond%60;
     minute=tempSecond~/60;
     millisecond=((temp-tempSecond.toDouble())*1000).toInt();

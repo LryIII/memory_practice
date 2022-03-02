@@ -23,8 +23,8 @@ class _HomeContentState extends State<HomeContent> {
         globalData.userName=await SharedPreferenceUnit.getData<String>('%userName');
         globalData.passWord=await SharedPreferenceUnit.getData<String>('%passWord');
         globalData.recordList=await GrowNetwork().getData(globalData.userName);
-        globalData.getBestTime();
-        globalData.getMyRank();
+        await globalData.getBestTime();
+        await globalData.getMyRank();
         setState(() {
 
         });
@@ -136,7 +136,7 @@ class _HomeContentState extends State<HomeContent> {
               alignment: const Alignment(0,-0.10),
               imageUrl: 'assets/images/user_grow.png',
               onTap: (){
-                Navigator.of(context).pushNamed('/grow');
+                Navigator.of(context).pushNamed('/grow').then((value) => setState((){}));
               },
             ),
             AlignImageButton(

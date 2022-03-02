@@ -148,7 +148,7 @@ class _RegisterPageState extends State<RegisterPage> {
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.0),
               ),
-              hintText: "请输入不超过6位，由字母数字组成的密码"
+              hintText: "请输入不短于6位，由字母数字组成的密码"
             ),
             onSubmitted: (value){
               if(checkPassWord()){

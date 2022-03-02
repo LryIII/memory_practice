@@ -24,8 +24,8 @@ class _GrowContentState extends State<GrowContent> {
   String bestString='';
   String rankString='';
   void initSelf() async{
-    bestString=await getBest();
-    rankString=await getRank();
+    bestString=await globalData. getBestTime();
+    rankString=await globalData.getMyRank();
     allNum=await GrowNetwork().getNum(globalData.userName);
     setState(() {
 
@@ -94,7 +94,7 @@ class _GrowContentState extends State<GrowContent> {
                         height: 436.6*unitH,
                         width: 307.0*unitW,
                         decoration: BoxDecoration(
-                          color: const Color(0x933F51B5),//Colors.indigo[300],
+                          color: const Color(0x933F51B5),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         child: getLineChart(),
@@ -144,7 +144,8 @@ class _GrowContentState extends State<GrowContent> {
             widget: EntranceToLogin(
               onPressed: (){
                 SmartDialog.dismiss();
-                Navigator.of(context).pushNamed('/login');
+                Navigator.of(context).pop();
+                Navigator.of(context).pushNamed('/login').then((value) => setState((){}));
               },
             ),
           );
@@ -249,7 +250,7 @@ class _GrowContentState extends State<GrowContent> {
     return EntranceToLogin(
       onPressed: (){
         Navigator.of(context).pop();
-        Navigator.pushNamed(context, '/login');
+        Navigator.pushNamed(context, '/login').then((value) => setState((){}));
       },
     );
   }

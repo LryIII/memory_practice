@@ -30,20 +30,26 @@ class GlobalData{
     this.rankMy=0,
   });
   void changeLogin(bool value) =>isLogin=value;
-  Future<void> getBestTime() async{
+  Future<String> getBestTime() async{
     if(isLogin){
       recordList=await GrowNetwork().getData(globalData.userName);
-    }
-    if(recordList.isNotEmpty){
-      for(int i=0;i<recordList.length;i++){
-        bestTime=min(bestTime, recordList[i]['time'].toDouble());
+      if(recordList.isNotEmpty){
+        for(int i=0;i<recordList.length;i++){
+          bestTime=min(bestTime, recordList[i]['time'].toDouble());
+        }
+        return bestTime.toString();
+      }else{
+        return "暂无";
       }
     }
+    return " ";
   }
-  Future<void> getMyRank() async{
+  Future<String> getMyRank() async{
     if(isLogin){
       rankMy=await RankMyItem().getOneRank(globalData.userName);
+      return rankMy==0 ? "暂无" : rankMy.toString();
     }
+    return '';
   }
   void update() async{
     if(isLogin){
