@@ -3,7 +3,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:memory_practice/pages/home/home_content.dart';
 import 'package:memory_practice/routes.dart';
 
-void main() {
+void main() async{
   runApp(const MyApp());
 }
 

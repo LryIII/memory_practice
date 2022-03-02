@@ -24,7 +24,9 @@ class EndFailDialog extends Dialog{
                     ),
                     onPressed: (){
                       Navigator.pop(context);
-                      Navigator.pushReplacementNamed(context, '/game_main');
+                      Navigator.pushReplacementNamed(context, '/game_main',arguments: {
+                        'isFirst':false
+                      });
                     },
                   ),
                 )
@@ -53,7 +55,6 @@ class EndFailDialog extends Dialog{
                   ),
                 ),
                 Positioned(
-                  //alignment: const Alignment(0,0),
                   left: 31,
                   top: 70,
                   child: Column(
@@ -192,11 +193,14 @@ class EndWinDialog extends Dialog{
   final int second;
   final int minute;
   final int millisecond;
+  //0 未刷新记录 ，1 刷新纪录 , 2未登录
+  final int type;
   const EndWinDialog({
     Key? key,
     required this.minute,
     required this.second,
-    required this.millisecond
+    required this.millisecond,
+    required this.type,
   }) : super(key: key) ;
 
   String getString(){
@@ -205,9 +209,17 @@ class EndWinDialog extends Dialog{
     }
     return minute.toString()+"分"+second.toString()+"秒";
   }
+  String getTextString(){
+    if(type==0){
+      return getString()+"，加油！";
+    }
+    if(type==1){
+      return getString()+"，刷新个人记录！！";
+    }
+    return getString()+'您还未登录';
+  }
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Material(
       type: MaterialType.transparency,
       child: Center(
@@ -227,7 +239,9 @@ class EndWinDialog extends Dialog{
                     ),
                     onPressed: (){
                       Navigator.pop(context);
-                      Navigator.pushReplacementNamed(context, '/game_main');
+                      Navigator.pushReplacementNamed(context, '/game_main',arguments: {
+                        'isFirst':false
+                      });
                     },
                   ),
                 )
