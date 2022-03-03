@@ -34,7 +34,16 @@ class AboutUsPage extends StatelessWidget {
         decoration: const BoxDecoration(
           color: Color.fromARGB(0xff, 246, 246, 246),
         ),
-        child:Container(),
+        child:Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(
+                'assets/images/about.png'
+              ),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
       ),
     );
   }

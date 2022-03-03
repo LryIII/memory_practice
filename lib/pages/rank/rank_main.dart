@@ -313,7 +313,7 @@ class _RankContentState extends State<RankContent> {
     if(tempSecond>=100000){
       return '——';
     }
-    second=tempSecond%60;
+    second=tempSecond;
     minute=tempSecond~/60;
     millisecond=((temp-tempSecond.toDouble())*1000).toInt();
     if(millisecond<=9){

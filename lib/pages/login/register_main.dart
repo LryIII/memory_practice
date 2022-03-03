@@ -109,7 +109,6 @@ class _RegisterPageState extends State<RegisterPage> {
             onSubmitted: (value){
               if(checkUserName()){
                 _userNameFocus.unfocus();
-                //print(userName);
                 FocusScope.of(context).requestFocus(_passWordFocus);
               }else{
                 FocusScope.of(context).requestFocus(_userNameFocus);
@@ -120,8 +119,10 @@ class _RegisterPageState extends State<RegisterPage> {
                 _userNameStreamController.add('用户名不得超过8个字符');
                 return ;
               }
-              if(value.contains('%')){
-                _userNameStreamController.add('用户名请勿包含“%”');
+              if(!_userNameEditingController.text.contains(RegExp(r"^[\u4e00-\u9fa5A-Za-z0-9_]+$"))
+                  && _userNameEditingController.text!=''
+                  && _userNameEditingController.text.isNotEmpty){
+                _userNameStreamController.add('用户名请勿包含特殊字符');
                 return ;
               }
               _userNameStreamController.add(null);
@@ -296,8 +297,10 @@ class _RegisterPageState extends State<RegisterPage> {
       _userNameStreamController.add('用户名不得超过8个字符');
       return false;
     }
-    if(userName.contains('%')){
-      _userNameStreamController.add('用户名请勿包含“%”');
+    if(!userName.contains(RegExp(r"^[\u4e00-\u9fa5A-Za-z0-9_]+$"))
+        && _userNameEditingController.text!=''
+        && _userNameEditingController.text.isNotEmpty){
+      _userNameStreamController.add('用户名请勿包含特殊字符');
       return false;
     }
     _userNameStreamController.add(null);
