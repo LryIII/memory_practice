@@ -76,8 +76,8 @@ class _RankContentState extends State<RankContent> {
     }
     Map temp= await RankMyItem().getAllRank((currentTime-1)*10+1, currentTime*10);
     allRankData.addAll(temp['result'].toList());
-    currentTime++;
     nowEnd=currentTime*10;
+    currentTime++;
     if(mounted){
       setState(() {
 
