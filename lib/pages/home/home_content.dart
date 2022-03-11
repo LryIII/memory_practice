@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:memory_practice/components/global.dart';
 import 'package:memory_practice/pages/home/my_align_button.dart';
@@ -17,6 +18,10 @@ class HomeContent extends StatefulWidget {
 class _HomeContentState extends State<HomeContent> {
   initAll() async{
     try{
+
+      var responseDD=await Dio().get("https://raw.githubusercontent.com/LryIII/transfer/main/update.json");
+      print(responseDD.data);
+
       var isLogin=await SharedPreferenceUnit.getData<bool>("isLogin");
       if(isLogin==true){
         globalData.changeLogin(true);
