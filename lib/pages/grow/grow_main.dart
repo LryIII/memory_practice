@@ -112,20 +112,7 @@ class _GrowContentState extends State<GrowContent> {
 
   getLineChart() {
     if(globalData.isLogin){
-      if(allNum>=3){
-        return const GrowLineChart();
-      }
-      else{
-        return const Center(
-          child: Text(
-            "成功三次以上才能查看轨迹哦",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20.0
-            ),
-          ),
-        );
-      }
+      return const RealGrowLineChart();
     }else{
       return unknownChart();
     }

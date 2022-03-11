@@ -27,6 +27,9 @@ class _RankContentState extends State<RankContent> {
   String rankString='';
   String timeString='';
 
+  bool hasGetData=false;
+  bool isRefresh=false;
+
   final RefreshController _refreshController = RefreshController(
     initialRefresh: false,
   );
@@ -85,8 +88,12 @@ class _RankContentState extends State<RankContent> {
     }
     _refreshController.loadComplete();
   }
-  getData() async{
+  Future<void> getData() async{
 
+    if(hasGetData){
+      return ;
+    }
+    hasGetData=true;
     if(globalData.isLogin){
       rankString=await globalData.getMyRank();
       timeString=await globalData.getBestTime();
@@ -105,16 +112,17 @@ class _RankContentState extends State<RankContent> {
       Map temp= await RankMyItem().getAllRank(1, itemCount);
       allRankData.addAll(temp['result'].toList());
     }
-    setState(() {
-
-    });
+    isRefresh=true;
+    // setState(() {
+    //
+    // });
   }
   @override
   void initState() {
     if(globalData.bestTime<=10000){
       globalData.uploadBest();
     }
-    getData();
+    //getData();
     super.initState();
   }
   @override
@@ -147,159 +155,104 @@ class _RankContentState extends State<RankContent> {
               child: SizedBox(
                 height: 690.1*unitH,
                 width: 317*1.05*unitW,
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(height: 30*unitH,),
-                      GestureDetector(
-                        onTap: (){
-                          if(globalData.isLogin){
+                child: FutureBuilder(
+                  future: getData(),
+                  builder: (context,snapshot) {
+                    if(snapshot.connectionState!=ConnectionState.done && !isRefresh){
+                      if(snapshot.hasError){
+                        return const Center(
+                          child: Text(
+                            "出现未知错误",
+                            style: TextStyle(
+                              fontSize: 20.0,
+                            ),
+                          ),
+                        );
+                      }else{
+                        return const Center(
+                          child: SizedBox(
+                            height: 50.0,
+                            width: 50.0,
+                            child: CircularProgressIndicator(
+                              value: null,
+                              backgroundColor: Colors.grey,
+                              valueColor: AlwaysStoppedAnimation(Colors.orange),
+                              strokeWidth: 6.0,
+                            ),
+                          ),
+                        );
+                      }
+                    }
+                    return SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(height: 30*unitH,),
+                          GestureDetector(
+                            onTap: (){
+                              if(globalData.isLogin){
 
-                          }else{
-                            SmartDialog.show(
-                              // here
-                              backDismiss: false,
-                              clickBgDismissTemp: false,
-                              isLoadingTemp: false,
-                              widget: EntranceToLogin(
-                                onPressed: (){
-                                  SmartDialog.dismiss();
-                                  Navigator.of(context).pushNamed('/login');
-                                },
-                              ),
-                            );
-                          }
-                        },
-                        child: Container(
-                          height: 50*1.01*unitH,
-                          width: 257*1.01*unitW,
-                          decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage('assets/images/transparent_rank_1.png'),
-                                fit: BoxFit.fill,
-                              )
-                          ),
-                          child: Row(
-                            children: [
-                              const Text(
-                                  "我的排名:"
-                              ),
-                              SizedBox(
-                                width: 50*unitW,
-                                child: Text(
-                                  rankString,
-                                ),
-                              ),
-                              const Text("称号秒数:"),
-                              SizedBox(
-                                width: 50*unitW,
-                                child: Text(
-                                  timeString,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 12.3*unitH,),
-                      Container(
-                        height: (420+162.5)*unitH,
-                        width: 317*1.05*unitW,
-                        decoration: BoxDecoration(
-                          //border: Border.all(),
-                          borderRadius: BorderRadius.circular(40.0),
-                        ),
-                        child: SmartRefresher(
-                          controller: _refreshController,
-                          enablePullDown: true,
-                          enablePullUp: true,
-                          header: const WaterDropHeader(),
-                          onLoading: _onLoading,
-                          onRefresh: _onRefresh,
-                          footer:  CustomFooter(
-                            builder: (BuildContext context,LoadStatus? mode){
-                              Widget body ;
-                              TextStyle _style=const TextStyle(
-                                color: Colors.white,
-                              );
-                              if(mode==LoadStatus.idle){
-                                body = Text("上拉加载",style: _style,);
+                              }else{
+                                SmartDialog.show(
+                                  // here
+                                  backDismiss: false,
+                                  clickBgDismissTemp: false,
+                                  isLoadingTemp: false,
+                                  widget: EntranceToLogin(
+                                    onPressed: (){
+                                      SmartDialog.dismiss();
+                                      Navigator.of(context).pushNamed('/login');
+                                    },
+                                  ),
+                                );
                               }
-                              else if(mode==LoadStatus.loading){
-                                body =  const CupertinoActivityIndicator();
-                              }
-                              else if(mode == LoadStatus.failed){
-                                body = Text("加载失败！点击重试！",style: _style,);
-                              }
-                              else if(mode == LoadStatus.canLoading){
-                                body = Text("松手,加载更多!",style: _style,);
-                              }
-                              else{
-                                body = Text("没有更多数据了!",style: _style,);
-                              }
-                              return Container(
-                                height: 55.0,
-                                child: Center(child:body),
-                              );
                             },
+                            child: Container(
+                              height: 50*1.01*unitH,
+                              width: 257*1.01*unitW,
+                              decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                    image: AssetImage('assets/images/transparent_rank_1.png'),
+                                    fit: BoxFit.fill,
+                                  )
+                              ),
+                              child: Row(
+                                children: [
+                                  const Text(
+                                      "我的排名:"
+                                  ),
+                                  SizedBox(
+                                    width: 50*unitW,
+                                    child: Text(
+                                      rankString,
+                                    ),
+                                  ),
+                                  const Text("称号秒数:"),
+                                  SizedBox(
+                                    width: 50*unitW,
+                                    child: Text(
+                                      timeString,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
-                          child: ListView.builder(
-                            padding: const EdgeInsets.only(top: 0.0),
-                            itemCount: allRankData.length,//
-                            itemBuilder: (context,index){
-                              int rankIndex=index+1;
-                              return SizedBox(
-                                height: 60*unitH,
-                                child: Row(
-                                  children: [
-                                    SizedBox(width: 7*unitW,),
-                                    SizedBox(
-                                      width:18.0*unitW,
-                                      child: Text(
-                                        rankIndex<=9?"$rankIndex ":"$rankIndex",
-                                        style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 13.0
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10*unitW,),
-                                    const CircleAvatar(
-                                      backgroundImage: AssetImage('assets/images/twt_round.png'),
-                                    ),
-                                    SizedBox(width: 10*unitW,),
-                                    SizedBox(
-                                      width: 120.3*unitW,
-                                      child: Text(
-                                        allRankData[index]['name'].toString(),
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 13.0,
-                                        ),
-                                      ),
-                                    ),
-                                    RankTimeText(
-                                      type: 1,
-                                      child: Text(
-                                        getRankTimeText(index),
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 13.0,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              );
-                            },
-                            physics: const BouncingScrollPhysics(),
+                          SizedBox(height: 12.3*unitH,),
+                          Container(
+                            height: (420+162.5)*unitH,
+                            width: 317*1.05*unitW,
+                            decoration: BoxDecoration(
+                              //border: Border.all(),
+                              borderRadius: BorderRadius.circular(40.0),
+                            ),
+                            child: rankWidget(),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
-                )
+                    );
+                  }
+                ),
               ),
             ),
           ],
@@ -307,6 +260,96 @@ class _RankContentState extends State<RankContent> {
       ),
     );
   }
+
+  Widget rankWidget(){
+    return SmartRefresher(
+      controller: _refreshController,
+      enablePullDown: true,
+      enablePullUp: true,
+      header: const WaterDropHeader(),
+      onLoading: _onLoading,
+      onRefresh: _onRefresh,
+      footer:  CustomFooter(
+        builder: (BuildContext context,LoadStatus? mode){
+          Widget body ;
+          TextStyle _style=const TextStyle(
+            color: Colors.white,
+          );
+          if(mode==LoadStatus.idle){
+            body = Text("上拉加载",style: _style,);
+          }
+          else if(mode==LoadStatus.loading){
+            body =  const CupertinoActivityIndicator();
+          }
+          else if(mode == LoadStatus.failed){
+            body = Text("加载失败！点击重试！",style: _style,);
+          }
+          else if(mode == LoadStatus.canLoading){
+            body = Text("松手,加载更多!",style: _style,);
+          }
+          else{
+            body = Text("没有更多数据了!",style: _style,);
+          }
+          return Container(
+            height: 55.0,
+            child: Center(child:body),
+          );
+        },
+      ),
+      child: ListView.builder(
+        padding: const EdgeInsets.only(top: 0.0),
+        itemCount: allRankData.length,//
+        itemBuilder: (context,index){
+          int rankIndex=index+1;
+          return SizedBox(
+            height: 60*unitH,
+            child: Row(
+              children: [
+                SizedBox(width: 7*unitW,),
+                SizedBox(
+                  width:18.0*unitW,
+                  child: Text(
+                    rankIndex<=9?"$rankIndex ":"$rankIndex",
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 13.0
+                    ),
+                  ),
+                ),
+                SizedBox(width: 10*unitW,),
+                const CircleAvatar(
+                  backgroundImage: AssetImage('assets/images/twt_round.png'),
+                ),
+                SizedBox(width: 10*unitW,),
+                SizedBox(
+                  width: 120.3*unitW,
+                  child: Text(
+                    allRankData[index]['name'].toString(),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 13.0,
+                    ),
+                  ),
+                ),
+                RankTimeText(
+                  type: 1,
+                  child: Text(
+                    getRankTimeText(index),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 13.0,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          );
+        },
+        physics: const BouncingScrollPhysics(),
+      ),
+    );
+  }
+
   String getRankTimeText(int index){
     double temp=allRankData[index]['time'].toDouble();
     int tempSecond=temp.toInt();

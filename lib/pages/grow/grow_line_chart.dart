@@ -8,7 +8,14 @@ import 'package:memory_practice/components/global.dart';
 import 'package:memory_practice/pages/grow/grow_network.dart';
 
 class GrowLineChart extends StatefulWidget {
-  const GrowLineChart({Key? key}) : super(key: key);
+  final List<FlSpot> iniPointsData;
+
+  const GrowLineChart({
+    required this.iniPointsData,
+    Key? key,
+  }) : super(key: key);
+
+
 
   @override
   _GrowLineChartState createState() => _GrowLineChartState();
@@ -17,8 +24,7 @@ class GrowLineChart extends StatefulWidget {
 class _GrowLineChartState extends State<GrowLineChart> {
   final double oneItemWidth=60.0;
 
-  late int pointCounts;
-  List<FlSpot> iniPointsData=[],pointsData=[];
+  List<FlSpot> pointsData=[];
   late Timer _timer;
   late double boxWidth;
   double maxY=0;
@@ -26,16 +32,12 @@ class _GrowLineChartState extends State<GrowLineChart> {
   @override
   void initState() {
     getData();
-
-
     boxWidth=oneItemWidth;
     _timer=Timer.periodic(const Duration(milliseconds: 200),
       (timer) {
-        if(_timer.tick<=iniPointsData.length){
-          pointsData.add(iniPointsData[_timer.tick-1]);
-          setState(() {
-
-          });
+        if(_timer.tick<=widget.iniPointsData.length){
+          pointsData.add(widget.iniPointsData[_timer.tick-1]);
+          setState(() {});
           boxWidth+=oneItemWidth;
         }
         else{
@@ -48,25 +50,12 @@ class _GrowLineChartState extends State<GrowLineChart> {
     );
     super.initState();
   }
-  // void getData() async{
-  //   iniPointsData=[
-  //     const FlSpot(1, -1),
-  //     const FlSpot(2, -4),
-  //     const FlSpot(3, -1.8),
-  //     const FlSpot(4, -5),
-  //     const FlSpot(5, -2),
-  //     const FlSpot(6, -2.2),
-  //     const FlSpot(7, -1.8),
-  //   ];
-  // }
-  void getData() async{
-    List data=await GrowNetwork().getData(globalData.userName);
-    for(int i=0;i<data.length;i++){
-      iniPointsData.add(FlSpot(data[i]['num'].toDouble(), -data[i]['time'].toDouble()));
-    }
-    for(int i=0;i<iniPointsData.length;i++){
-      maxY=max(iniPointsData[i].y.abs(), maxY);
-      minY=min(iniPointsData[i].y.abs(), minY);
+  void getData() {
+    //iniPointsData=widget.iniPointsData;
+    //print(iniPointsData);
+    for(int i=0;i<widget.iniPointsData.length;i++){
+      maxY=max(widget.iniPointsData[i].y.abs(), maxY);
+      minY=min(widget.iniPointsData[i].y.abs(), minY);
     }
   }
   @override
@@ -76,49 +65,66 @@ class _GrowLineChartState extends State<GrowLineChart> {
   }
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: SizedBox(
-        height: 400,
-        width: oneItemWidth*iniPointsData.length,
-        child: Padding(
-          padding: const EdgeInsets.only(
-            left: 8.0,
-            right: 8.0,
-            bottom: 8.0,
-          ),
-          child: LineChart(
-            LineChartData(
-              //? 是否可以点击
-              lineTouchData: LineTouchData(
-                enabled: true,
-                touchTooltipData: LineTouchTooltipData(
-                )
+    return buildWidget();
+  }
+
+  Widget buildWidget(){
+    if(globalData.recordList.length>=3){
+      return SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: SizedBox(
+          height: 400,
+          width: oneItemWidth*widget.iniPointsData.length,
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: 8.0,
+              right: 8.0,
+              bottom: 8.0,
+            ),
+            child: LineChart(
+              LineChartData(
+                //? 是否可以点击
+                lineTouchData: LineTouchData(
+                  enabled: true,
+                  touchTooltipData: LineTouchTooltipData(
+
+                  ),
+                ),
+                //? 网格线配置
+                gridData: FlGridData(
+                  show: true,
+                  drawHorizontalLine: true,
+                  horizontalInterval: 0.50,
+                  getDrawingHorizontalLine: getDrawingHorizontalLine,
+                  drawVerticalLine: false,
+                ),
+                //axisTitleData: _buildFlAxisTitleData(),
+                //? 标题
+                titlesData: _buildTitles(),
+                //? 边框
+                borderData: _buildBorderData(),
+                minX: 1,
+                maxX: widget.iniPointsData.length.toDouble(),
+                maxY: -(minY-3).toInt().toDouble(),
+                minY: -(maxY+3).toInt().toDouble(),
+                //? 线条数据
+                lineBarsData: linesBarData(),
               ),
-              //? 网格线配置
-              gridData: FlGridData(
-                show: true,
-                drawHorizontalLine: true,
-                horizontalInterval: 0.50,
-                getDrawingHorizontalLine: getDrawingHorizontalLine,
-                drawVerticalLine: false,
-              ),
-              //axisTitleData: _buildFlAxisTitleData(),
-              //? 标题
-              titlesData: _buildTitles(),
-              //? 边框
-              borderData: _buildBorderData(),
-              minX: 1,
-              maxX: iniPointsData.length.toDouble(),
-              maxY: -(minY-3).toInt().toDouble(),
-              minY: -(maxY+3).toInt().toDouble(),
-              //? 线条数据
-              lineBarsData: linesBarData(),
             ),
           ),
         ),
-      ),
-    );
+      );
+    }else{
+      return const Center(
+        child: Text(
+          "成功三次以上才能查看轨迹哦",
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20.0
+          ),
+        ),
+      );
+    }
   }
 
   //? 边框信息
@@ -235,7 +241,7 @@ class _GrowLineChartState extends State<GrowLineChart> {
   }
 
   getInterval() {
-    if(iniPointsData.length>=2){
+    if(widget.iniPointsData.length>=2){
       if(((maxY-minY)/10).toDouble().toInt()==0){
         return 1.0;
       }
@@ -244,5 +250,71 @@ class _GrowLineChartState extends State<GrowLineChart> {
     else{
       return 10.0;
     }
+  }
+}
+
+
+
+class RealGrowLineChart extends StatefulWidget {
+  const RealGrowLineChart({Key? key}) : super(key: key);
+
+  @override
+  State<RealGrowLineChart> createState() => _RealGrowLineChartState();
+}
+
+class _RealGrowLineChartState extends State<RealGrowLineChart> {
+  final double oneItemWidth=60.0;
+
+  List<FlSpot> iniPointsData=[],pointsData=[];
+
+  late double boxWidth;
+
+  Future<void> getData() async{
+    List data=await GrowNetwork().getData(globalData.userName);
+    for(int i=0;i<data.length;i++){
+      iniPointsData.add(FlSpot(data[i]['num'].toDouble(), -data[i]['time'].toDouble()));
+    }
+  }
+
+  @override
+  void initState() {
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: getData(),
+      builder:(context, snapshot) {
+        if(snapshot.connectionState==ConnectionState.done){
+          return GrowLineChart(
+            iniPointsData: iniPointsData,
+          );
+        }
+        return const Center(
+          child: SizedBox(
+            height: 50.0,
+            width: 50.0,
+            child: CircularProgressIndicator(
+              value: null,
+              backgroundColor: Colors.grey,
+              valueColor: AlwaysStoppedAnimation(Colors.orange),
+              strokeWidth: 6.0,
+            ),
+          ),
+        );
+        // return const Center(
+        //   child: Text(
+        //     "loading",
+        //     style: TextStyle(
+        //       color: Colors.pinkAccent,
+        //       fontSize: 30.0,
+        //       letterSpacing: 3.0,
+        //     ),
+        //   ),
+        // );
+      },
+    );
   }
 }
