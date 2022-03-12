@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:dio/dio.dart';
@@ -18,10 +19,6 @@ class HomeContent extends StatefulWidget {
 class _HomeContentState extends State<HomeContent> {
   initAll() async{
     try{
-
-      var responseDD=await Dio().get("https://raw.githubusercontent.com/LryIII/transfer/main/update.json");
-      print(responseDD.data);
-
       var isLogin=await SharedPreferenceUnit.getData<bool>("isLogin");
       if(isLogin==true){
         globalData.changeLogin(true);
@@ -158,12 +155,40 @@ class _HomeContentState extends State<HomeContent> {
               },
               imageUrl: 'assets/images/about_us.png',
             ),
-            AlignImageButton(
+            Align(
               alignment: const Alignment(0,0.65),
-              onTap:(){
-
-              },
-              imageUrl: 'assets/images/card_pic.png',
+              child: GestureDetector(
+                onTap: (){
+                  Navigator.of(context).pushNamed('/update');
+                },
+                child: Container(
+                  height: 70*0.85,
+                  width: 245*0.85,
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(0xff, 253, 253, 253),
+                    borderRadius: BorderRadius.circular(4.0),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Icon(
+                        Icons.update,
+                        color: Colors.black54,
+                        size: 30.0,
+                      ),
+                      SizedBox(width: 10.0,),
+                      Text(
+                        "版本信息",
+                        style: TextStyle(
+                          fontSize: 19.0,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
           ],
         ),
