@@ -106,7 +106,7 @@ class _UpdatePageState extends State<UpdatePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
                 Text(
-                  "version: V1.0.2",
+                  "version: V1.0.3",
                   style: TextStyle(
                     color: Colors.black54,
                     fontSize: 20.0
