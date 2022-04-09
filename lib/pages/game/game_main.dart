@@ -8,7 +8,6 @@ import 'package:memory_practice/components/global.dart';
 import 'package:memory_practice/pages/game/game_small_image.dart';
 import 'package:memory_practice/pages/game/slide_image_entrance.dart';
 import 'package:memory_practice/pages/grow/grow_network.dart';
-import 'package:memory_practice/pages/rank/rank_network.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 import '../../components/dialog.dart';
@@ -349,14 +348,12 @@ class _GameMainState extends State<GameMain> {
         imageUrl: questions[_list[1]],
         state: stateList[1],
       ),
-      // smallImages[0],
       SizedBox(width: 10*unitW,),
       SmallImage(
         onTap: () {
           answersUser.add(_list[2]);
           if (nowQuestion >= 1) {
             if (answersRight[nowQuestion - 1] == answersUser[nowQuestion - 1]) {
-              //isWin=false;
               stateList[2] = 1;
             } else {
               stateList[2] = 2;
@@ -372,7 +369,6 @@ class _GameMainState extends State<GameMain> {
         imageUrl: questions[_list[2]],
         state: stateList[2],
       ),
-      // smallImages[0],
     ];
   }
 

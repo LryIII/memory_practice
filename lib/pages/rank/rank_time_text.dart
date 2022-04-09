@@ -21,7 +21,7 @@ class RankTimeText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if(type==0){
-      return Container(
+      return SizedBox(
         width: 120,
         height: 30,
         child: Row(

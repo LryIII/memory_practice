@@ -113,9 +113,6 @@ class _RankContentState extends State<RankContent> {
       allRankData.addAll(temp['result'].toList());
     }
     isRefresh=true;
-    // setState(() {
-    //
-    // });
   }
   @override
   void initState() {
