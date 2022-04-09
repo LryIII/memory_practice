@@ -217,7 +217,6 @@ class _GrowContentState extends State<GrowContent> {
       }
       return '';
     }catch(e){
-      print(e);
       return '';
     }
   }

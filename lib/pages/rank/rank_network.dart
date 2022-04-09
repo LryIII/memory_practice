@@ -29,10 +29,8 @@ class RankMyItem {
           'tail': '$tail',
         }
       );
-      //print(response.data);
       return response.data;
     }catch(e){
-      //print(e);
       return {};
     }
   }
@@ -47,7 +45,6 @@ class RankMyItem {
       return response.data;
     }
     catch(e){
-      //print(e);
       return {};
     }
   }
@@ -61,7 +58,6 @@ class RankMyItem {
       );
       return response.data['result'].toDouble();
     }catch(e){
-      //print(e);
       return -0.01;
     }
   }
@@ -75,7 +71,6 @@ class RankMyItem {
       );
       return response.data['result']=='1' || response.data['result']==1;
     }catch(e){
-      //print(e);
       return false;
     }
   }
@@ -86,7 +81,6 @@ class RankMyItem {
       );
       return response.data['result'].toInt();
     }catch(e){
-      //print(e);
       return -1;
     }
   }
@@ -103,7 +97,6 @@ class RankMyItem {
       }
       return -1;
     }catch(e){
-      print(e);
       return -1;
     }
   }
@@ -121,7 +114,6 @@ class RankMyItem {
       }
       return response.data;
     }catch(e){
-      print(e);
       return {};
     }
   }
