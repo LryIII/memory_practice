@@ -3,9 +3,12 @@ import 'dart:ui';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:memory_practice/components/global.dart';
 import 'package:memory_practice/pages/home/my_align_button.dart';
 
+import '../../components/dialog.dart';
+import '../../components/net_status.dart';
 import '../../components/store.dart';
 import '../grow/grow_network.dart';
 
@@ -17,25 +20,7 @@ class HomeContent extends StatefulWidget {
 }
 
 class _HomeContentState extends State<HomeContent> {
-  initAll() async{
-    try{
-      var isLogin=await SharedPreferenceUnit.getData<bool>("isLogin");
-      if(isLogin==true){
-        globalData.changeLogin(true);
-        globalData.userName=await SharedPreferenceUnit.getData<String>('%userName');
-        globalData.passWord=await SharedPreferenceUnit.getData<String>('%passWord');
-        globalData.recordList=await GrowNetwork().getData(globalData.userName);
-        await globalData.getBestTime();
-        await globalData.getMyRank();
-        setState(() {
 
-        });
-      }
-    }catch(e){
-      print(e);
-      rethrow;
-    }
-  }
   @override
   void deactivate() {
     bool? _bool=ModalRoute.of(context)?.isCurrent;
@@ -48,7 +33,8 @@ class _HomeContentState extends State<HomeContent> {
   }
   @override
   void initState() {
-    initAll();
+    NetStatusListener().checkNet();
+
     super.initState();
   }
   @override

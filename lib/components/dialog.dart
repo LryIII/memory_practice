@@ -258,14 +258,22 @@ class EndWinDialog extends Dialog{
                   ),
                 ),
                 Positioned(
-                  left: 270.0/2.0-227.0/2.0,
+                  left: 255.0/2.0-227.0/2.0,
                   top: 20,
-                  child: Text(
-                    getString()+"，刷新个人记录！！",
-                    style: const TextStyle(
-                      fontSize: 19.0,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
+                  child: SizedBox(
+                    width: 266.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          getTextString(),
+                          style: const TextStyle(
+                            fontSize: 19.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -285,9 +293,6 @@ class EndWinDialog extends Dialog{
                             fit: BoxFit.cover,
                           ),
                         ),
-                        // child: Image(
-                        //   image: AssetImage,
-                        // ),
                       ),
                     ],
                   ),

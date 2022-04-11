@@ -23,9 +23,30 @@ class _GrowContentState extends State<GrowContent> {
   int allNum=0;
   String bestString='';
   String rankString='';
+  String nickString='';
+
+  Future<String> getNick() async{
+    int rank=await RankMyItem().getOneRank(globalData.userName);
+    if(rank<=5){
+      return '超凡入圣';
+    }else if(rank<=10){
+      return '一代宗师';
+    }
+    else if(rank<=20){
+      return '一派掌门';
+    }
+    else if(rank<=30){
+      return '武林盟主';
+    }else if(rank<=40){
+      return '江湖豪侠';
+    }
+    return '初入江湖';
+  }
+
   void initSelf() async{
-    bestString=await globalData. getBestTime();
+    bestString=await globalData.getBestTime();
     rankString=await globalData.getMyRank();
+    nickString=await getNick();
     allNum=await GrowNetwork().getNum(globalData.userName);
     setState(() {
 
@@ -143,7 +164,6 @@ class _GrowContentState extends State<GrowContent> {
         width: 307.0*unitW,
         decoration: BoxDecoration(
           color: Colors.red,
-          //border: Border.all(),
           borderRadius: BorderRadius.circular(20.0),
         ),
         child: Column(
@@ -193,7 +213,7 @@ class _GrowContentState extends State<GrowContent> {
                     subtitle: "排行榜上",
                   ),
                   GrowStateBox(
-                    title: globalData.isLogin ? "江湖豪侠" : "道",
+                    title: globalData.isLogin ? nickString : "道",
                     subtitle: "等级状态",
                   ),
                 ],
