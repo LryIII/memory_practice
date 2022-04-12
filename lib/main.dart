@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:memory_practice/components/dialog.dart';
 import 'package:memory_practice/components/global.dart';
 import 'package:memory_practice/components/net_status.dart';
 import 'package:memory_practice/components/store.dart';
@@ -51,64 +52,7 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin<MyApp>{
   @override
   void afterFirstLayout(BuildContext context) {
     SmartDialog.show(
-      widget: Container(
-        height: 320,
-        width: 270,
-        decoration: BoxDecoration(
-          color: const Color.fromARGB(0xff, 246, 246, 246),
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text(
-              "重要提醒",
-              style: TextStyle(
-                color: Colors.blueAccent,
-                fontSize: 30.0,
-                fontWeight: FontWeight.bold
-              ),
-            ),
-            SizedBox(height: 20,),
-            Text(
-              "由于某些未知的原因",
-              style: TextStyle(
-                fontSize: 15.0,
-              ),
-            ),
-            Text(
-              "（能力真的有限，修了好久没修好",
-              style: TextStyle(
-                fontSize: 15.0,
-              ),
-            ),
-            Text(
-              "在校园网情况下",
-              style: TextStyle(
-                fontSize: 15.0,
-              ),
-            ),
-            Text(
-              "需要联网的界面加载会异常缓慢",
-              style: TextStyle(
-                fontSize: 15.0,
-              ),
-            ),
-            Text(
-              "在加载缓慢的情况下，建议退出重进几次",
-              style: TextStyle(
-                fontSize: 15.0,
-              ),
-            ),
-            Text(
-              "或者在通过流量加载",
-              style: TextStyle(
-                fontSize: 15.0,
-              ),
-            ),
-          ],
-        ),
-      ),
+      widget: const NoticeDialog(),
     );
   }
 

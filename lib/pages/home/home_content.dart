@@ -1,16 +1,11 @@
-import 'dart:convert';
 import 'dart:ui';
 
-import 'package:dio/dio.dart';
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:memory_practice/components/global.dart';
 import 'package:memory_practice/pages/home/my_align_button.dart';
 
-import '../../components/dialog.dart';
 import '../../components/net_status.dart';
-import '../../components/store.dart';
-import '../grow/grow_network.dart';
 
 class HomeContent extends StatefulWidget {
   const HomeContent({Key? key}) : super(key: key);
@@ -19,24 +14,21 @@ class HomeContent extends StatefulWidget {
   State<HomeContent> createState() => _HomeContentState();
 }
 
-class _HomeContentState extends State<HomeContent> {
+class _HomeContentState extends State<HomeContent> with AfterLayoutMixin<HomeContent>{
 
-  @override
-  void deactivate() {
-    bool? _bool=ModalRoute.of(context)?.isCurrent;
-    if(_bool as bool){
-      setState(() {
-
-      });
-    }
-    super.deactivate();
-  }
   @override
   void initState() {
     NetStatusListener().checkNet();
-
     super.initState();
   }
+
+  @override
+  void afterFirstLayout(BuildContext context) {
+    setState(() {
+
+    });
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -181,4 +173,5 @@ class _HomeContentState extends State<HomeContent> {
       ),
     );
   }
+
 }
