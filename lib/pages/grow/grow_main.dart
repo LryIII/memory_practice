@@ -110,9 +110,9 @@ class _GrowContentState extends State<GrowContent> {
                       ),
                       SizedBox(height: 30*unitH,),
                       growSelf(),
-                      SizedBox(height: 30.0*unitH,),
+                      SizedBox(height: 15.0*unitH,),
                       Container(
-                        height: 436.6*unitH,
+                        height: 446.6*unitH,
                         width: 307.0*unitW,
                         decoration: BoxDecoration(
                           color: const Color(0x933F51B5),

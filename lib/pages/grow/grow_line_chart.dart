@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:memory_practice/components/global.dart';
 import 'package:memory_practice/pages/grow/grow_network.dart';
 
@@ -23,26 +24,40 @@ class GrowLineChart extends StatefulWidget {
 
 class _GrowLineChartState extends State<GrowLineChart> {
   final double oneItemWidth=60.0;
-
+  late double _value;
   List<FlSpot> pointsData=[];
   late Timer _timer;
   late double boxWidth;
+  int intervalMilliseconds=200;
   double maxY=0;
   double minY=0xfffffff;
+  late int dataSum;
   @override
   void initState() {
     getData();
-    boxWidth=oneItemWidth;
-    _timer=Timer.periodic(const Duration(milliseconds: 200),
+    dataSum=widget.iniPointsData.length;
+    boxWidth=oneItemWidth*widget.iniPointsData.length;
+    _value=boxWidth;
+    if(dataSum<=10){
+      intervalMilliseconds=200;
+    }else if(dataSum<=20){
+      intervalMilliseconds=150;
+    }else if(dataSum<=30){
+      intervalMilliseconds=80;
+    }else if(dataSum<=40){
+      intervalMilliseconds=50;
+    }else{
+      intervalMilliseconds=2500~/dataSum;
+    }
+    _timer=Timer.periodic(Duration(milliseconds: intervalMilliseconds),
       (timer) {
         if(_timer.tick<=widget.iniPointsData.length){
           pointsData.add(widget.iniPointsData[_timer.tick-1]);
           setState(() {});
-          boxWidth+=oneItemWidth;
         }
         else{
           setState(() {
-
+            //boxWidth=300.0;
           });
           _timer.cancel();
         }
@@ -51,8 +66,6 @@ class _GrowLineChartState extends State<GrowLineChart> {
     super.initState();
   }
   void getData() {
-    //iniPointsData=widget.iniPointsData;
-    //print(iniPointsData);
     for(int i=0;i<widget.iniPointsData.length;i++){
       maxY=max(widget.iniPointsData[i].y.abs(), maxY);
       minY=min(widget.iniPointsData[i].y.abs(), minY);
@@ -70,49 +83,58 @@ class _GrowLineChartState extends State<GrowLineChart> {
 
   Widget buildWidget(){
     if(globalData.recordList.length>=3){
-      return SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: SizedBox(
-          height: 400,
-          width: oneItemWidth*widget.iniPointsData.length,
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: 8.0,
-              right: 8.0,
-              bottom: 8.0,
-            ),
-            child: LineChart(
-              LineChartData(
-                //? 是否可以点击
-                lineTouchData: LineTouchData(
-                  enabled: true,
-                  touchTooltipData: LineTouchTooltipData(
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: 25.0,
+            child: getSlider(),
+          ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: SizedBox(
+              height: 365,
+              width: boxWidth,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: 8.0,
+                  right: 8.0,
+                  bottom: 8.0,
+                ),
+                child: LineChart(
+                  LineChartData(
+                    //? 是否可以点击
+                    lineTouchData: LineTouchData(
+                      enabled: true,
+                      touchTooltipData: LineTouchTooltipData(
 
+                      ),
+                    ),
+                    //? 网格线配置
+                    gridData: FlGridData(
+                      show: true,
+                      drawHorizontalLine: true,
+                      horizontalInterval: 0.50,
+                      getDrawingHorizontalLine: getDrawingHorizontalLine,
+                      drawVerticalLine: false,
+                    ),
+                    //axisTitleData: _buildFlAxisTitleData(),
+                    //? 标题
+                    titlesData: _buildTitles(),
+                    //? 边框
+                    borderData: _buildBorderData(),
+                    minX: 1,
+                    maxX: widget.iniPointsData.length.toDouble(),
+                    maxY: -(minY-3).toInt().toDouble(),
+                    minY: -(maxY+3).toInt().toDouble(),
+                    //? 线条数据
+                    lineBarsData: linesBarData(),
                   ),
                 ),
-                //? 网格线配置
-                gridData: FlGridData(
-                  show: true,
-                  drawHorizontalLine: true,
-                  horizontalInterval: 0.50,
-                  getDrawingHorizontalLine: getDrawingHorizontalLine,
-                  drawVerticalLine: false,
-                ),
-                //axisTitleData: _buildFlAxisTitleData(),
-                //? 标题
-                titlesData: _buildTitles(),
-                //? 边框
-                borderData: _buildBorderData(),
-                minX: 1,
-                maxX: widget.iniPointsData.length.toDouble(),
-                maxY: -(minY-3).toInt().toDouble(),
-                minY: -(maxY+3).toInt().toDouble(),
-                //? 线条数据
-                lineBarsData: linesBarData(),
               ),
             ),
           ),
-        ),
+        ],
       );
     }else{
       return const Center(
@@ -125,6 +147,33 @@ class _GrowLineChartState extends State<GrowLineChart> {
         ),
       );
     }
+  }
+
+  Widget getSlider(){
+    return Slider(
+      value: _value,
+      min: 300.0,
+      max:oneItemWidth*widget.iniPointsData.length,
+      label: _value.toStringAsFixed(1),
+      activeColor: Colors.orangeAccent,
+      inactiveColor: Colors.black45,
+      onChanged: (value){
+        setState(() {
+          if(!_timer.isActive){
+            _value=value;
+            boxWidth=value;
+          }
+        });
+      },
+      onChangeEnd: (value){
+        if(_timer.isActive){
+          SmartDialog.showToast(
+            "曲线生成过程中请勿改变坐标长度",
+            maskColorTemp: Colors.white,
+          );
+        }
+      },
+    );
   }
 
   //? 边框信息
@@ -182,6 +231,7 @@ class _GrowLineChartState extends State<GrowLineChart> {
       ),
     )];
   }
+
   FlTitlesData _buildTitles() {
     return FlTitlesData(
       //? 下边标题
@@ -304,16 +354,6 @@ class _RealGrowLineChartState extends State<RealGrowLineChart> {
             ),
           ),
         );
-        // return const Center(
-        //   child: Text(
-        //     "loading",
-        //     style: TextStyle(
-        //       color: Colors.pinkAccent,
-        //       fontSize: 30.0,
-        //       letterSpacing: 3.0,
-        //     ),
-        //   ),
-        // );
       },
     );
   }
