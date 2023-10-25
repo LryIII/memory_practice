@@ -287,7 +287,7 @@ class _RankContentState extends State<RankContent> {
           else{
             body = Text("没有更多数据了!",style: _style,);
           }
-          return Container(
+          return SizedBox(
             height: 55.0,
             child: Center(child:body),
           );
