@@ -73,9 +73,9 @@ class _GameMainState extends State<GameMain> {
       if (nowQuestion >= 2) {
         if (answersRight[nowQuestion - 2] != answersUser[nowQuestion - 2]) {
           isWin = false;
-          FlameAudio.audioCache.play('error.mp3');
+          FlameAudio.bgm.play('error.mp3');
         }else{
-          FlameAudio.audioCache.play('right.mp3');
+          FlameAudio.bgm.play('right.mp3');
         }
       }
       if (nowQuestion == 21) {
@@ -112,9 +112,9 @@ class _GameMainState extends State<GameMain> {
             height: 30*unitH,
             width: double.infinity,
           ),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               Text(
                 "第0题",
                 style: TextStyle(
@@ -198,9 +198,9 @@ class _GameMainState extends State<GameMain> {
             ),
           ),
           SizedBox(height: 73*unitH,),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               Text(
                 "请在下方 选中上一题 出现的图",
                 style: TextStyle(
@@ -373,7 +373,7 @@ class _GameMainState extends State<GameMain> {
   }
 
   bool gameJudge() {
-    for (int i = 0; i < 19; i++) {
+    for (int i = 0; i <= 19; i++) {
       if (answersUser[i] != answersRight[i]) {
         return false;
       }
