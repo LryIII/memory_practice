@@ -336,10 +336,15 @@ class _LoginPageState extends State<LoginPage> {
 
   void loginFunction() async{
     try{
-      bool success=await LoginNetwork().login(
-        _userNameEditingController.text,
-        _passWordEditingController.text,
-      );
+      // bool success=await LoginNetwork().login(
+      //   _userNameEditingController.text,
+      //   _passWordEditingController.text,
+      // );
+      bool success=false;
+      if(_userNameEditingController.text=='test' &&
+          _passWordEditingController.text=='12345678'){
+        success=true;
+      }
       if(success){
         SmartDialog.showToast('登录成功');
         await SharedPreferenceUnit.saveData<bool>('isLogin', true);

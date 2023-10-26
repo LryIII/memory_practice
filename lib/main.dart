@@ -30,7 +30,9 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin<MyApp>{
         globalData.changeLogin(true);
         globalData.userName=await SharedPreferenceUnit.getData<String>('%userName');
         globalData.passWord=await SharedPreferenceUnit.getData<String>('%passWord');
-        globalData.recordList=await GrowNetwork().getData(globalData.userName);
+
+        globalData.getTimesAll();
+        globalData.recordList=await GrowNetwork().getMyData();
         await globalData.getBestTime();
         await globalData.getMyRank();
         setState(() {

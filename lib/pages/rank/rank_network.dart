@@ -86,16 +86,16 @@ class RankMyItem {
   }
   Future<int> getOneRank(String name)async{
     try{
-      var response=await dio.get(
-        'http://101.43.148.116:9002/v1/admin/twt/ranking',
-        queryParameters:{
-          'name':name,
-        }
-      );
-      if(response.data['code']=='200' || response.data['code']==200){
-        return response.data['result'].toInt();
-      }
-      return -1;
+      // var response=await dio.get(
+      //   'http://101.43.148.116:9002/v1/admin/twt/ranking',
+      //   queryParameters:{
+      //     'name':name,
+      //   }
+      // );
+      // if(response.data['code']=='200' || response.data['code']==200){
+      //   return response.data['result'].toInt();
+      // }
+      return 1;
     }catch(e){
       return -1;
     }

@@ -152,7 +152,7 @@ class _GrowLineChartState extends State<GrowLineChart> {
   Widget getSlider(){
     return Slider(
       value: _value,
-      min: 300.0,
+      min: 250.0,
       max:oneItemWidth*widget.iniPointsData.length,
       label: _value.toStringAsFixed(1),
       activeColor: Colors.orangeAccent,
@@ -320,9 +320,9 @@ class _RealGrowLineChartState extends State<RealGrowLineChart> {
   late double boxWidth;
 
   Future<void> getData() async{
-    List data=await GrowNetwork().getData(globalData.userName);
+    List data=await GrowNetwork().getMyData();
     for(int i=0;i<data.length;i++){
-      iniPointsData.add(FlSpot(data[i]['num'].toDouble(), -data[i]['time'].toDouble()));
+      iniPointsData.add(FlSpot(i+1, -data[i].toDouble()));
     }
   }
 
