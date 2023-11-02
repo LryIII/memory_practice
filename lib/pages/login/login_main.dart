@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:memory_practice/components/store.dart';
-import 'package:memory_practice/pages/login/login_network.dart';
 
 import '../../components/global.dart';
 

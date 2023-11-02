@@ -146,9 +146,9 @@ class _HomeContentState extends State<HomeContent> with AfterLayoutMixin<HomeCon
                     color: const Color.fromARGB(0xff, 253, 253, 253),
                     borderRadius: BorderRadius.circular(4.0),
                   ),
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       Icon(
                         Icons.update,
                         color: Colors.black54,

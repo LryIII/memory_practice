@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:memory_practice/components/global.dart';
 
 class EndFailDialog extends Dialog{
    const EndFailDialog({Key? key}) : super(key: key);
@@ -428,9 +429,9 @@ class NoticeDialog extends StatelessWidget {
         color: const Color.fromARGB(0xff, 246, 246, 246),
         borderRadius: BorderRadius.circular(10.0),
       ),
-      child: Column(
+      child: const Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
+        children: [
           Text(
             "重要提醒",
             style: TextStyle(
@@ -481,3 +482,149 @@ class NoticeDialog extends StatelessWidget {
     );
   }
 }
+
+class EnsureDialog extends Dialog{
+  const EnsureDialog({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      type: MaterialType.transparency,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(240, 0, 0, 15),
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.cancel,
+                      size: 30,
+                      color: Colors.grey,
+                    ),
+                    onPressed: (){
+                      SmartDialog.dismiss(closeType: 1);
+                    },
+                  ),
+                )
+              ],
+            ),
+            Stack(
+              children: [
+                Container(
+                  height: 150,
+                  width: 270,
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(0xff, 246, 246, 246),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+                const Positioned(
+                  left: 300.0/2.0-95.0/2.0,
+                  top: 40,
+                  child: Text(
+                    "确定吗",
+                    style: TextStyle(
+                      fontSize: 25.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  child:  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: 1.0,
+                        width: 270,
+                        color: Colors.black,
+                      ),
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 270.0/2.0,
+                            height: 36.0,
+                            child: ElevatedButton(
+                              child: const Text(
+                                "确定",
+                                style: TextStyle(
+                                    color: Colors.black54
+                                ),
+                              ),
+                              onPressed: (){
+                                globalData.clearAll();
+                                SmartDialog.showToast("已清空");
+                                SmartDialog.dismiss(closeType: 1);
+                              },
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.all(
+                                    const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.zero,
+                                        topRight: Radius.zero,
+                                        bottomLeft: Radius.circular(10.0),
+                                        bottomRight: Radius.zero,
+                                      ),
+                                    )
+                                ),
+                                textStyle: MaterialStateProperty.all(
+                                    const TextStyle(
+                                      color: Colors.black,
+                                    )
+                                ),
+                                backgroundColor: MaterialStateProperty.all(
+                                    const Color.fromARGB(0xff, 246, 246, 246)
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 270.0/2.0,
+                            height: 36.0,
+                            child: ElevatedButton(
+                              onPressed: (){
+                                SmartDialog.dismiss(closeType: 1);
+                              },
+                              child: const Text("取消"),
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.all(
+                                  const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.zero,
+                                      topRight: Radius.zero,
+                                      bottomLeft: Radius.zero,
+                                      bottomRight: Radius.circular(10.0),
+                                    ),
+                                  ),
+                                ),
+                                textStyle: MaterialStateProperty.all(
+                                    const TextStyle(
+                                        color: Colors.white
+                                    )
+                                ),
+                                backgroundColor: MaterialStateProperty.all(
+                                    Colors.black
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+

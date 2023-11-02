@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:memory_practice/components/dialog.dart';
 import 'package:memory_practice/components/entrance_to_login.dart';
 import 'package:memory_practice/pages/grow/grow_line_chart.dart';
 import 'package:memory_practice/pages/grow/grow_network.dart';
@@ -117,7 +118,10 @@ class _GrowContentState extends State<GrowContent> {
                             child: ElevatedButton(
                               onPressed: (){
                                 setState(() {
-                                  globalData.clearAll();
+                                  SmartDialog.show(
+                                    widget: const EnsureDialog(),
+                                  );
+                                  //globalData.clearAll();
                                 });
                               },
                               style:ButtonStyle(
