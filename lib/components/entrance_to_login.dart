@@ -24,9 +24,9 @@ class EntranceToLogin extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(height:120*unitH,),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 Text(
                   "您还没有登录哦",
                   style: TextStyle(

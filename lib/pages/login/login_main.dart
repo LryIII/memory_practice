@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:memory_practice/components/store.dart';
-import 'package:memory_practice/pages/login/login_network.dart';
 
 import '../../components/global.dart';
 
@@ -336,10 +335,15 @@ class _LoginPageState extends State<LoginPage> {
 
   void loginFunction() async{
     try{
-      bool success=await LoginNetwork().login(
-        _userNameEditingController.text,
-        _passWordEditingController.text,
-      );
+      // bool success=await LoginNetwork().login(
+      //   _userNameEditingController.text,
+      //   _passWordEditingController.text,
+      // );
+      bool success=false;
+      if(_userNameEditingController.text=='test' &&
+          _passWordEditingController.text=='12345678'){
+        success=true;
+      }
       if(success){
         SmartDialog.showToast('登录成功');
         await SharedPreferenceUnit.saveData<bool>('isLogin', true);

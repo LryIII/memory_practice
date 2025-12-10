@@ -21,6 +21,7 @@ class GlobalData{
   late bool isLogin;
   late double bestTime;
   late int rankMy=0;
+  late int timesAll;
   GlobalData({
     this.userName="%",
     this.passWord="%",
@@ -28,14 +29,23 @@ class GlobalData{
     this.recordList=const [],
     this.bestTime=0xfffffff,
     this.rankMy=0,
+    this.timesAll=0
   });
   void changeLogin(bool value) =>isLogin=value;
+  Future<void> getTimesAll() async{
+    timesAll=await SharedPreferenceUnit.getData<int>("timesAll")??0 ;
+  }
+  Future<void> updateTimesAll(double time) async{
+    timesAll+=1;
+    await SharedPreferenceUnit.saveData<double>("t$timesAll",time);
+    await SharedPreferenceUnit.saveData<int>("timesAll",timesAll);
+  }
   Future<String> getBestTime() async{
     if(isLogin){
-      recordList=await GrowNetwork().getData(globalData.userName);
+      recordList=await GrowNetwork().getMyData();
       if(recordList.isNotEmpty){
         for(int i=0;i<recordList.length;i++){
-          bestTime=min(bestTime, recordList[i]['time'].toDouble());
+          bestTime=min(bestTime, recordList[i].toDouble());
         }
         return bestTime.toString();
       }else{
@@ -51,9 +61,13 @@ class GlobalData{
     }
     return '';
   }
+  void clearAll() async{
+    timesAll=0;
+    SharedPreferenceUnit.saveData<int>("timesAll", 0);
+  }
   void update() async{
     if(isLogin){
-      recordList=await GrowNetwork().getData(globalData.userName);
+      recordList=await GrowNetwork().getMyData();
       getBestTime();
     }
   }

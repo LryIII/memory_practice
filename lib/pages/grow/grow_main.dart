@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:memory_practice/components/dialog.dart';
 import 'package:memory_practice/components/entrance_to_login.dart';
 import 'package:memory_practice/pages/grow/grow_line_chart.dart';
 import 'package:memory_practice/pages/grow/grow_network.dart';
@@ -98,17 +99,45 @@ class _GrowContentState extends State<GrowContent> {
                       SizedBox(height: 30*unitH,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Text(
+                        children: [
+                          const Text(
                             "自我提升",
                             style: TextStyle(
-                              fontSize: 33.3,
+                              fontSize: 30.3,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
+                          SizedBox(width: 30*unitW)
                         ],
                       ),
-                      SizedBox(height: 30*unitH,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          SizedBox(
+                            height: 30*unitH,
+                            child: ElevatedButton(
+                              onPressed: (){
+                                setState(() {
+                                  SmartDialog.show(
+                                    widget: const EnsureDialog(),
+                                  );
+                                  //globalData.clearAll();
+                                });
+                              },
+                              style:ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(Colors.blueGrey),
+                                shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(180.0),
+                                    )
+                                ),
+                              ),
+                              child: const Text("清除记录"),
+                            ),
+                          ),
+                          SizedBox(width: 30*unitW,)
+                        ],
+                      ),
                       growSelf(),
                       SizedBox(height: 15.0*unitH,),
                       Container(
@@ -228,7 +257,7 @@ class _GrowContentState extends State<GrowContent> {
   Future<String> getBest() async{
     try{
       double best=0xfffffff;
-      List data=await GrowNetwork().getData(globalData.userName);
+      List data=await GrowNetwork().getMyData();
       if(data.isNotEmpty){
         for(int i=0;i<data.length;i++){
           best=min(best, data[i]['time'].toDouble());

@@ -102,11 +102,11 @@ class _UpdatePageState extends State<UpdatePage> {
               ),
             ),
             const SizedBox(height: 30.0,),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 Text(
-                  "version: V1.0.5",
+                  "version: V1.0.6",
                   style: TextStyle(
                     color: Colors.black54,
                     fontSize: 20.0
@@ -137,9 +137,9 @@ class _UpdatePageState extends State<UpdatePage> {
                     BorderSide.none,
                   ),
                 ),
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     //SizedBox(width: 10.0,),
                     Text(
                       "应用信息",
@@ -178,9 +178,9 @@ class _UpdatePageState extends State<UpdatePage> {
                     BorderSide.none,
                   ),
                 ),
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     //SizedBox(width: 10.0,),
                     Align(
                       alignment: Alignment.centerRight,
